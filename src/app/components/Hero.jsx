@@ -13,13 +13,12 @@ const Hero = () => {
               Are you a musically match with your crush or significant other?
               Check now with MelodyMatch.
             </p>
-            <div className="mt-10"></div>
-  
+
               <Submit />
-          </div>
         </div>
-      </div>
-    </>
+        </div>
+        </div>
+        </>
   );
 };
 

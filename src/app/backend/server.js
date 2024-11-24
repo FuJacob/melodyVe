@@ -95,7 +95,6 @@ app.get("/getUserData", ensureSpotifyToken, async (req, res) => {
   }
 });
 
-
 // Route to handle the GET request for user playlist data
 app.get("/getUserPlaylists", ensureSpotifyToken, async (req, res) => {
   const { username } = req.query;
@@ -123,8 +122,32 @@ app.get("/getUserPlaylists", ensureSpotifyToken, async (req, res) => {
   }
 });
 
+// Route to get all playlist items from user playlist
+app.get("/getPlaylistItems", ensureSpotifyToken, async (req, res) => {
+  const { playlist_id } = req.query;
 
-  
+  if (!playlist_id) {
+    return res.status(400).json({ error: "Playlist id is required" });
+  }
+  try {
+    const response = await axios.get(
+      `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`,
+      {
+        headers: {
+          Authorization: `Bearer ${spotifyToken}`,
+        },
+      }
+    );
+    res.json(response.data);
+  } catch (error) {
+    console.error(
+      "Error fetching Spotify playlist items data:",
+      error.response?.data || error.message
+    );
+    res.status(500).json({ error: "Failed to get playlist items data" });
+  }
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
