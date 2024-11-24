@@ -14,7 +14,8 @@ const Hero = () => {
               Check now with MelodyMatch.
             </p>
             <div className="mt-10"></div>
-            <Submit />
+  
+              <Submit />
           </div>
         </div>
       </div>

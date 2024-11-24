@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import ErrorPopup from "./ErrorPopup";
-
+import Guide from "./Guide";
 const ValidationPopup = ({ onClose }) => (
   <div className="fixed inset-0 flex justify-center items-center z-50">
     <ErrorPopup onClose={onClose} />
@@ -64,8 +64,8 @@ const Submit = () => {
   };
 
   return (
-    <div className="flex flex-col items-center space-y-6">
-      <div className="max-w-md space-y-6 bg-white p-6 rounded-3xl shadow-xl bg-gray-50">
+    <div className="flex flex-col items-center space-y-12">
+      <div className="space-y-6 bg-white p-6 rounded-3xl shadow-xl bg-gray-50">
         {inputValues.map((value, index) => (
           <input
             key={index}
@@ -77,10 +77,10 @@ const Submit = () => {
           />
         ))}
         <button
-          className="btn btn-secondary btn-xs sm:btn-sm md:btn-md lg:btn-lg"
+          className="btn btn-secondary w-full text-white btn-xs sm:btn-sm md:btn-md lg:btn-lg"
           onClick={handleButtonClick}
         >
-          Match!
+          Start MelodyMatch
         </button>
       </div>
 
@@ -89,6 +89,7 @@ const Submit = () => {
       {/* Show pop-up if input is empty */}
       {showPopup && <ValidationPopup onClose={() => setShowPopup(false)} />}
 
+      <Guide/>
       {/* Display users and playlists */}
       {users.length > 0 && (
         <div className="flex justify-between w-full mt-8 gap-8">
