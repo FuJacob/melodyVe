@@ -4,7 +4,7 @@ import { Poppins } from 'next/font/google';
 import "./globals.css";
 
 const poppins = Poppins({
-  weight: ['600', '700'], // Specify the weights you want to use
+  weight: ['300', '400', '500', '600', '700'], // Specify the weights you want to use
   subsets: ['latin'],
   display: 'swap', // Ensures text is visible while the font loads
   variable: '--font-poppins', // Define a CSS variable for Poppins
@@ -23,7 +23,7 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "MelodyMatch",
+  title: "melodyVe",
   description: "Created by JF",
 };
 

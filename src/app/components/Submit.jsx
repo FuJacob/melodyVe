@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import ErrorPopup from "./ErrorPopup";
-import Guide from "./Guide";
 
 const ValidationPopup = ({ onClose }) => (
   <div className="fixed inset-0 flex justify-center items-center z-50">
@@ -119,15 +118,13 @@ const Submit = () => {
           className="btn btn-secondary w-full text-white btn-xs sm:btn-sm md:btn-md lg:btn-lg"
           onClick={handleButtonClick}
         >
-          Start MelodyMatch
+          let's start
         </button>
       </div>
 
       {loading && <p>Loading...</p>}
 
       {showPopup && <ValidationPopup onClose={() => setShowPopup(false)} />}
-
-      <Guide />
 
       {users.length > 0 && (
         <div className="flex justify-between w-full mt-8 gap-8">
