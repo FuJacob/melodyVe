@@ -8,10 +8,15 @@ import Link from "next/link";
 const Hero = () => {
   return (
     <>
-      <div className="hero bg-base-200 min-h-screen flex flex-col items-center justify-center">
+      <div
+        className="hero min-h-screen flex flex-col items-center justify-center"
+        style={{
+          backgroundImage: "url('bg.svg')",
+        }}
+      >
         <h1 className="text-3xl font-bold">introducing</h1>
         <img src="melodyve.svg" className="w-96" />
-        <div className="bg-white rounded-3xl shadow-xl py-4 w-2/5 text-center text-xl mt-12">
+        <div className="bg-accent text-white rounded-3xl shadow-xl py-4 w-2/5 text-center font-semibold text-xl mt-12">
           <Typewriter
             words={[
               "discover the harmony in your favorite songs",

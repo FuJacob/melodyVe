@@ -9,11 +9,7 @@ export default function Home() {
     <>
       <Navbar />
       <Hero />
-<div className="min-h-screen bg-base-200">
-        <Guide />
-  
-</div>
-      <Footer />
+      {/* <Footer /> */}
 
       </>
   );

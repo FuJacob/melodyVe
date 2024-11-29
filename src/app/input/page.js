@@ -8,6 +8,7 @@ export default function InputPage() {
       <div className="hero bg-base-200 min-h-screen">
         <div className="hero-content flex flex-col">
           <Submit />
+          <Guide />
         </div>
       </div>
     </>

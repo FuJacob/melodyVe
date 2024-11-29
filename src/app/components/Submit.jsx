@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import ErrorPopup from "./ErrorPopup";
-
+import { marked } from "marked";
 const ValidationPopup = ({ onClose }) => (
   <div className="fixed inset-0 flex justify-center items-center z-50">
     <ErrorPopup onClose={onClose} />
@@ -14,6 +14,7 @@ const Submit = () => {
   const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [playlistTracks, setPlaylistTracks] = useState({});
+  const [groqResponse, setGroqResponse] = useState(null); // State for storing the Groq response
 
   const handleInputChange = (index, value) => {
     const updatedInputs = [...inputValues];
@@ -51,15 +52,36 @@ const Submit = () => {
       if (!response.ok) throw new Error("Failed to fetch playlist tracks");
 
       const playlistData = await response.json();
-      console.log("Tracks fetched for playlist:", playlistId, playlistData);
-
-      // Extract track names
       return playlistData.items
         .filter((item) => item.track) // Avoid null tracks
         .map((item) => item.track.name);
     } catch (error) {
       console.error("Error fetching playlist tracks:", error.message);
       return [];
+    }
+  };
+
+  const sendToGroqAI = async (userTracks) => {
+    try {
+      // Ensure userTracks is an array of two arrays (for two users)
+      const tracks = [userTracks[1] || [], userTracks[2] || []]; // Map to the 1-based keys
+
+      const response = await fetch("http://localhost:4000/sendToGroq", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userTracks: tracks }), // Send the formatted tracks array
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send tracks to Groq");
+      }
+
+      const result = await response.json();
+      setGroqResponse(result); // Set the Groq response to state
+    } catch (error) {
+      console.error("Error sending tracks to Groq:", error.message);
     }
   };
 
@@ -78,22 +100,31 @@ const Submit = () => {
 
       setUsers(fetchedUsers);
 
-      // Fetch tracks for each playlist
-      const tracksData = {};
+      // Create an object to store tracks for each user
+      const userTracks = {};
+
       await Promise.all(
         fetchedUsers.map(async (user, userIndex) => {
+          const key = userIndex + 1; // Use 1-based index as the key
+          userTracks[key] = []; // Initialize an array for the user in the object
+
           if (user.playlistsData?.items) {
-            const userTracks = {};
             for (const playlist of user.playlistsData.items) {
               const trackNames = await fetchPlaylistTracks(playlist.id);
-              userTracks[playlist.id] = trackNames;
+              userTracks[key].push(...trackNames); // Add the tracks to this user's array
             }
-            tracksData[userIndex] = userTracks;
           }
         })
       );
-      console.log("Tracks data:", tracksData); // Debugging output
-      setPlaylistTracks(tracksData);
+
+      console.log("User tracks:", userTracks); // Debug output
+
+      // Send the tracks for both users to the backend
+      if (userTracks[1] && userTracks[2]) {
+        await sendToGroqAI(userTracks);
+      } else {
+        console.error("Error: Missing tracks for one or both users");
+      }
     } catch (error) {
       console.error("Error fetching users:", error.message);
     } finally {
@@ -126,70 +157,15 @@ const Submit = () => {
 
       {showPopup && <ValidationPopup onClose={() => setShowPopup(false)} />}
 
-      {users.length > 0 && (
-        <div className="flex justify-between w-full mt-8 gap-8">
-          {users.map((user, userIndex) => (
-            <div key={userIndex} className="w-1/2 space-y-6">
-              <div className="flex flex-col justify-center h-96 p-6 border rounded-xl shadow-lg bg-gray-50">
-                <div className="flex justify-center">
-                  <img
-                    src={user.userData?.images[0]?.url || "user.png"}
-                    className="w-64 h-64 rounded-full"
-                  />
-                </div>
-                <h3 className="text-xl font-semibold text-blue-500 mb-2 text-center">
-                  {user.userData?.display_name}
-                </h3>
-                <div className="flex justify-between">
-                  <span className="font-medium">Followers:</span>
-                  <span>{user.userData?.followers.total}</span>
-                </div>
-                <div className="flex justify-center w-full">
-                  <a
-                    href={user.userData?.external_urls.spotify}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white text-xl font-semibold bg-secondary rounded-full p-3 "
-                  >
-                    View Profile
-                  </a>
-                </div>
-              </div>
-
-              <h2 className="text-xl font-bold text-center mt-4">
-                User {userIndex + 1} Playlists
-              </h2>
-              <div className="grid grid-cols-2 gap-y-6 place-items-center">
-                {user.playlistsData?.items.map((playlist) => (
-                  <div
-                    key={playlist.id}
-                    className="flex flex-col w-fit items-center bg-gray-100 p-8 rounded-xl shadow-md"
-                  >
-                    <h3 className="font-semibold text-lg">{playlist.name}</h3>
-                    <p className="text-sm">Tracks: {playlist.tracks.total}</p>
-                    <img
-                      src={playlist.images[0]?.url || "default-playlist.png"}
-                      alt={playlist.name}
-                      className="mt-2 w-64 h-auto rounded-xl"
-                    />
-                    <div className="mt-4 space-y-1 text-center">
-                      <h4 className="font-medium">Tracks:</h4>
-                      <ul className="text-sm">
-                        {playlistTracks[userIndex]?.[playlist.id]?.length >
-                        0 ? (
-                          playlistTracks[userIndex][playlist.id].map(
-                            (track, i) => <li key={i}>{track}</li>
-                          )
-                        ) : (
-                          <li>No tracks available</li>
-                        )}
-                      </ul>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+      {/* Display Groq response */}
+      {groqResponse && (
+        <div className="bg-base-100 p-5 rounded-3xl shadow-xl w-1/2">
+          <h3>Groq Response:</h3>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: marked(groqResponse.choices[0].message.content),
+            }}
+          />
         </div>
       )}
     </div>
