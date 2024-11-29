@@ -3,7 +3,7 @@ import React from "react";
 const Guide = () => {
   return (
     <>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center min-h-screen justify-center ">
         <div className="flex flex-row gap-6 text-4xl font-black text-center mb-12 bg-white rounded-3xl shadow-xl px-8 py-5">
           <h1>How does</h1>
           <img src="melodyve.svg" className="w-36" />

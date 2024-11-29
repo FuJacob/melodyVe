@@ -36,7 +36,7 @@ const fetchSpotifyToken = async () => {
     );
 
     spotifyToken = response.data.access_token;
-    tokenExpiryTime = Date.now() + response.data.expires_in * 1000; // Calculate token expiration time
+    tokenExpiryTime = Date.now() + response.data.expires_in * 100; // Calculate token expiration time
   } catch (error) {
     console.error(
       "Error fetching Spotify token:",
@@ -172,9 +172,40 @@ app.post("/sendToGroq", async (req, res) => {
         messages: [
           {
             role: "system",
-            content:
-              "I have two lists of songs from two different users. Please take a deep dive into these songs and provide a thoughtful, detailed report comparing their musical tastes. The goal is to understand how well these two users connect through music and whether their tastes reflect a genuine musical match. The report should include the following sections:\n\n1. **A Reflection of Their Musical Journey**: Offer a personal reflection on the overall musical preferences of both users, exploring the emotional essence of the songs they’ve chosen. How do their musical journeys align or diverge?\n\n2. **Where Their Tastes Align**: Look for the genres that bring them together. What are the common threads that bind their tastes? Provide a heartfelt analysis of how these shared genres reflect the deeper emotional layers of their personalities.\n\n3. **Shared Favorites**: Identify any songs that appear in both playlists, marking them as songs that have resonated deeply with both users. These are the songs that hold a special place in their hearts—what do these shared songs say about their connection?\n\n4. **New Songs to Explore Together**: Based on the music they love, suggest a few tracks that might speak to both of them on a profound level. These should be songs that echo their shared feelings, while also offering new sounds to explore together.\n\n5. **How Strong Is Their Musical Bond?**: Give a score out of 10 to represent how closely their musical tastes align. The higher the score, the more likely it is that they share a musical connection that goes beyond just surface-level preferences. How deeply do their musical hearts beat in sync?\n\n6. **A Musical Connection in Review**: Summarize the emotional journey of the analysis and offer any final thoughts on how their musical tastes intersect. Is there a deeper connection between them that the music reveals? What can we learn about them through the songs they love?"
-          },          
+            content: `
+          You are a music compatibility expert tasked with performing a deep, nuanced analysis of two Spotify user profiles. Your goal is to provide an objective, insightful comparison of their musical tastes, uncovering both similarities and unique characteristics.          
+          You will output EXACTLY the following:
+
+          1. Genre Compatibility (0-10 points)
+          - Identify shared and unique genres
+          - Analyze genre diversity
+          - Assess cross-genre musical exploration
+          
+          2. Mood (0-10 points)
+          - Compare emotional tone of playlists
+          - Compare energy levels
+          - Compare feelings
+          
+          3. Listening Habits (0-10 points)
+          - Compare song length preferences
+          - Compare release dates
+          - Compare tempo and rhythmic preferences
+          
+          4. Artist Overlap (0-10 points)
+          - Compare shared favorite artists
+          - Highlight unique artist discoveries
+          - Analyze artist connection depth
+          
+          5. Acoustic Characteristics (0-10 points)
+          - Compare instrumentation
+          - Assess sound complexity
+          - Evaluate production style similarities
+          
+          
+          **MelodyVe Score (WITH SCORE, EACH CATEGORY IS WEIGHTED 20%**
+          - 2 sentences to conclude the analysis, final remarks, things to think upon.
+          .`,
+          },
           {
             role: "user",
             content: `This is the first user's tracks: ${truncateTracks(

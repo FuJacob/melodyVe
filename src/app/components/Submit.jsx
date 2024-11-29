@@ -1,7 +1,9 @@
 "use client";
+import { ClipLoader } from "react-spinners";
 import React, { useState } from "react";
 import ErrorPopup from "./ErrorPopup";
 import { marked } from "marked";
+import Guide from "./Guide";
 const ValidationPopup = ({ onClose }) => (
   <div className="fixed inset-0 flex justify-center items-center z-50">
     <ErrorPopup onClose={onClose} />
@@ -133,41 +135,49 @@ const Submit = () => {
   };
 
   return (
-    <div className="flex flex-col items-center space-y-12">
-      <div className="space-y-6 bg-white p-6 rounded-3xl shadow-xl bg-gray-50">
-        {inputValues.map((value, index) => (
-          <input
-            key={index}
-            type="text"
-            placeholder={`Enter username ${index + 1}`}
-            value={value}
-            onChange={(e) => handleInputChange(index, e.target.value)}
-            className="input w-full text-center"
-          />
-        ))}
-        <button
-          className="btn btn-secondary w-full text-white btn-xs sm:btn-sm md:btn-md lg:btn-lg"
-          onClick={handleButtonClick}
-        >
-          let's start
-        </button>
+    <div className="flex flex-col items-center space-y-12 bg-base-200">
+      <div className="flex items-center min-h-screen">
+        <div className="space-y-6 bg-white p-6 rounded-3xl shadow-xl bg-gray-50">
+          {inputValues.map((value, index) => (
+            <input
+              key={index}
+              type="text"
+              placeholder={`Enter username ${index + 1}`}
+              value={value}
+              onChange={(e) => handleInputChange(index, e.target.value)}
+              className="input w-full text-center"
+            />
+          ))}
+          <button
+            className="btn btn-secondary w-full text-white btn-xs sm:btn-sm md:btn-md lg:btn-lg"
+            onClick={handleButtonClick}
+          >
+            let's start
+          </button>
+        </div>
       </div>
 
-      {loading && <p>Loading...</p>}
+      {loading && (
+        <div className="spinner-container">
+          <ClipLoader size={50} color="#3498db" loading={loading} />
+        </div>
+      )}
 
       {showPopup && <ValidationPopup onClose={() => setShowPopup(false)} />}
 
       {/* Display Groq response */}
       {groqResponse && (
-        <div className="bg-base-100 p-5 rounded-3xl shadow-xl w-1/2">
-          <h3>Groq Response:</h3>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: marked(groqResponse.choices[0].message.content),
-            }}
-          />
+        <div className="flex justify-center min-h-screen">
+          <div className="bg-base-100 p-5 rounded-3xl shadow-xl w-1/2">
+            <div
+              dangerouslySetInnerHTML={{
+                __html: marked(groqResponse.choices[0].message.content),
+              }}
+            />
+          </div>
         </div>
       )}
+      <Guide />
     </div>
   );
 };
