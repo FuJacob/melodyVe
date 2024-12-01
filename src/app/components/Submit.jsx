@@ -2,9 +2,9 @@
 import { ClipLoader } from "react-spinners";
 import React, { useState } from "react";
 import ErrorPopup from "./ErrorPopup";
-import { marked } from "marked";
 import Guide from "./Guide";
 import { Typewriter } from "react-simple-typewriter";
+
 const ValidationPopup = ({ onClose }) => (
   <div className="fixed inset-0 flex justify-center items-center z-50">
     <ErrorPopup onClose={onClose} />
@@ -17,7 +17,7 @@ const Submit = () => {
   const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [playlistTracks, setPlaylistTracks] = useState({});
-  const [groqResponse, setGroqResponse] = useState(null); // State for storing the Groq response
+  const [groqResponse, setGroqResponse] = useState(null);
 
   const handleInputChange = (index, value) => {
     const updatedInputs = [...inputValues];
@@ -56,7 +56,7 @@ const Submit = () => {
 
       const playlistData = await response.json();
       return playlistData.items
-        .filter((item) => item.track) // Avoid null tracks
+        .filter((item) => item.track)
         .map((item) => item.track.name);
     } catch (error) {
       console.error("Error fetching playlist tracks:", error.message);
@@ -66,15 +66,14 @@ const Submit = () => {
 
   const sendToGroqAI = async (userTracks) => {
     try {
-      // Ensure userTracks is an array of two arrays (for two users)
-      const tracks = [userTracks[1] || [], userTracks[2] || []]; // Map to the 1-based keys
+      const tracks = [userTracks[1] || [], userTracks[2] || []];
 
       const response = await fetch("http://localhost:4000/sendToGroq", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userTracks: tracks }), // Send the formatted tracks array
+        body: JSON.stringify({ userTracks: tracks }),
       });
 
       if (!response.ok) {
@@ -82,7 +81,7 @@ const Submit = () => {
       }
 
       const result = await response.json();
-      setGroqResponse(result); // Set the Groq response to state
+      setGroqResponse(result);
     } catch (error) {
       console.error("Error sending tracks to Groq:", error.message);
     }
@@ -98,31 +97,26 @@ const Submit = () => {
 
     try {
       const fetchedUsers = await Promise.all(
-        inputValues.map((username) => fetchUserData(username))
+        inputValues.map(async (username) => fetchUserData(username))
       );
 
       setUsers(fetchedUsers);
 
-      // Create an object to store tracks for each user
       const userTracks = {};
 
       await Promise.all(
         fetchedUsers.map(async (user, userIndex) => {
-          const key = userIndex + 1; // Use 1-based index as the key
-          userTracks[key] = []; // Initialize an array for the user in the object
+          const key = userIndex + 1;
+          userTracks[key] = [];
 
           if (user.playlistsData?.items) {
             for (const playlist of user.playlistsData.items) {
               const trackNames = await fetchPlaylistTracks(playlist.id);
-              userTracks[key].push(...trackNames); // Add the tracks to this user's array
+              userTracks[key].push(...trackNames);
             }
           }
         })
       );
-
-      console.log("User tracks:", userTracks); // Debug output
-
-      // Send the tracks for both users to the backend
       if (userTracks[1] && userTracks[2]) {
         await sendToGroqAI(userTracks);
       } else {
@@ -137,11 +131,9 @@ const Submit = () => {
 
   return (
     <>
-
       <div className="flex flex-col items-center space-y-12 bg-base-200">
-        
-       <div className="flex flex-col justify-center place-items-center min-h-screen gap-10 w-full">
-       <img src="melodyve.svg" className="w-96" />
+        <div className="flex flex-col justify-center place-items-center min-h-screen gap-10 w-full">
+          <img src="melodyve.svg" className="w-96" />
           <div className="bg-accent text-white rounded-3xl shadow-xl py-4 w-2/5 text-center font-semibold text-xl">
             <Typewriter
               words={[
@@ -172,14 +164,14 @@ const Submit = () => {
                 />
               ))}
               <button
-                className="btn btn-secondary w-full text-white btn-xs sm:btn-sm md:btn-md lg:btn-lg"
+                className="btn btn-secondary w-full text-white"
                 onClick={handleButtonClick}
               >
                 let's start
               </button>
             </div>
           </div>
-       </div>
+        </div>
 
         {loading && (
           <div className="spinner-container flex justify-center items-center w-full">
@@ -189,14 +181,167 @@ const Submit = () => {
 
         {showPopup && <ValidationPopup onClose={() => setShowPopup(false)} />}
 
-        {groqResponse && (
+        {groqResponse && users && (
           <div className="flex justify-center w-full min-h-screen">
-            <div className="bg-base-100 p-5 rounded-3xl shadow-xl w-1/2">
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: marked(groqResponse.choices[0].message.content),
-                }}
-              />
+              <div className="bg-white rounded-3xl shadow-xl w-3/4 space-y-8">
+              <div className="bg-secondary text-center text-white text-3xl font-black p-5 rounded-t-3xl">Report</div>
+
+              <div className="p-10">
+                <div className="flex flex-col-flow gap-16 text-center justify-center mb-12">
+                  <div className="flex flex-col items-center justify-center gap-4 bg-accent text-white text-2xl font-bold rounded-3xl shadow-xl w-64 h-64">
+                    <img
+                      src={users[0].userData?.images[0]?.url}
+                      className="w-36 h-36 rounded-full"
+                      alt="User 1 Profile Pic"
+                    />
+                      <a
+                        href={users[0]?.userData?.external_urls.spotify}
+                        target="_blank"
+                      >
+                        {users[0]?.userData?.display_name}
+                      </a>
+                  </div>
+                  <div className="flex flex-col justify-center items-center gap-5">
+                    <img src="melodyve.svg" alt="melodyve" className="w-96" />
+                  </div>
+                  <div className="flex flex-col items-center justify-center gap-4 bg-accent text-white text-2xl font-bold rounded-3xl shadow-xl w-64 h-64">
+                    <img
+                      src={users[1].userData?.images[0]?.url}
+                      className="w-36 h-36 rounded-full"
+                      alt="User 1 Profile Pic"
+                    />
+                      <a
+                        href={users[1]?.userData?.external_urls.spotify}
+                        target="_blank"
+                      >
+                        {users[1]?.userData?.display_name}
+                      </a>
+                  </div>
+                </div>
+  
+                <div className="grid grid-cols-2 gap-6">
+                  {/* Genre Compatibility */}
+                  <div className="bg-base-100 p-6 rounded-2xl shadow-lg p-12">
+                    <div className="flex flex-inline gap-x-5 font-semibold">
+                      <div className="bg-secondary text-white rounded-full w-12 h-12 flex items-center justify-center">
+                        {groqResponse.genreCompatibility.score}/10
+                      </div>
+                      <h3 className="text-2xl mb-7 mt-2">Genre Compatibility</h3>
+                    </div>
+                    <ul class="list-disc space-y-2">
+                      {groqResponse.genreCompatibility.explanation.map(
+                        (item, index) => (
+                          <li key={index} className="font-xl">
+                            {item}
+                          </li>
+                        )
+                      )}
+                    </ul>
+                    </div>
+  
+                  {/* Mood Compatibility */}
+                  <div className="bg-base-100 p-6 rounded-2xl shadow-lg p-12">
+                    <div className="flex flex-inline gap-x-5 font-semibold">
+                      <div className="bg-secondary text-white rounded-full w-12 h-12 flex items-center justify-center">
+                        {groqResponse.mood.score}/10
+                      </div>
+                      <h3 className="text-2xl mb-7 mt-2">Mood Compatibility</h3>
+                    </div>
+                    <ul class="list-disc space-y-2">
+                      {groqResponse.mood.explanation.map((item, index) => (
+                        <li key={index} className="font-xl">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                    </div>
+  
+                  {/* Instrumental Preference */}
+                  <div className="bg-base-100 p-6 rounded-2xl shadow-lg p-12">
+                    <div className="flex flex-inline gap-x-5 font-semibold">
+                      <div className="bg-secondary text-white rounded-full w-12 h-12 flex items-center justify-center">
+                        {groqResponse.instrumentalVocalPreference.score}/10
+                      </div>
+                      <h3 className="text-2xl mb-7 mt-2">
+                        Instrumental Preference
+                      </h3>
+                    </div>
+                    <ul class="list-disc space-y-2">
+                      {groqResponse.instrumentalVocalPreference.explanation.map(
+                        (item, index) => (
+                          <li key={index} className="font-xl">
+                            {item}
+                          </li>
+                        )
+                      )}
+                    </ul>
+                    </div>
+  
+                  {/* Song Narrative */}
+                  <div className="bg-base-100 p-6 rounded-2xl shadow-lg p-12">
+                    <div className="flex flex-inline gap-x-5 font-semibold">
+                      <div className="bg-secondary text-white rounded-full w-12 h-12 flex items-center justify-center">
+                        {groqResponse.songStories.score}/10
+                      </div>
+                      <h3 className="text-2xl mb-7 mt-2">Song Narrative</h3>
+                    </div>
+                    <ul class="list-disc space-y-2">
+                      {groqResponse.songStories.explanation.map((item, index) => (
+                        <li key={index} className="font-xl">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                    </div>
+  
+                  {/* Artist Overlap */}
+                  <div className="bg-base-100 p-6 rounded-2xl shadow-lg p-12">
+                    <div className="flex flex-inline gap-x-5 font-semibold">
+                      <div className="bg-secondary text-white rounded-full w-12 h-12 flex items-center justify-center">
+                        {groqResponse.artistOverlap.score}/10
+                      </div>
+                      <h3 className="text-2xl mb-7 mt-2">Artist Overlap</h3>
+                    </div>
+                    <ul class="list-disc space-y-2">
+                      {groqResponse.artistOverlap.explanation.map(
+                        (item, index) => (
+                          <li key={index} className="font-xl">
+                            {item}
+                          </li>
+                        )
+                      )}
+                    </ul>
+                    </div>
+  
+                  {/* Dancibility */}
+                  <div className="bg-base-100 p-6 rounded-2xl shadow-lg p-12">
+                    <div className="flex flex-inline gap-x-5 font-semibold">
+                      <div className="bg-secondary text-white rounded-full w-12 h-12 flex items-center justify-center">
+                        {groqResponse.dancibility.score}/10
+                      </div>
+                      <h3 className="text-2xl mb-7 mt-2">Dancibility</h3>
+                    </div>
+                    <ul class="list-disc space-y-2">
+                      {groqResponse.dancibility.explanation.map((item, index) => (
+                        <li key={index} className="font-xl">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+  
+                  {/* Total MelodyVe Score */}
+                </div>
+                <div className="bg-secondary text-white p-8 rounded-2xl text-center">
+                  <h3 className="text-3xl font-bold mb-4">MelodyVe Rating</h3>
+                  <p className="text-5xl font-extrabold mb-4">
+                    {groqResponse.totalMelodyveScore.score}
+                  </p>
+                  <p className="text-xl italic">
+                    {groqResponse.totalMelodyveScore.finalRemarks}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         )}

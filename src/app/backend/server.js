@@ -161,79 +161,100 @@ const truncateTracks = (tracks, maxLength) => {
   return `${tracksString.substring(0, maxLength - 20)}... (truncated)`;
 };
 
-// Route to send tracks to Groq API
+// Route to send tracks to Groq API (now using OpenAI)
 app.post("/sendToGroq", async (req, res) => {
   try {
     const { userTracks } = req.body; // Tracks array sent from frontend
 
     const response = await axios.post(
-      "https://api.groq.com/openai/v1/chat/completions",
+      "https://api.openai.com/v1/chat/completions",
       {
+        model: "gpt-4o-mini",
         messages: [
           {
             role: "system",
-            content: `
-          You are a music compatibility expert tasked with performing a deep, nuanced analysis of two Spotify user profiles. Your goal is to provide an objective, insightful comparison of their musical tastes, uncovering both similarities and unique characteristics.          
-          You will output EXACTLY the following:
-
-          1. Genre Compatibility (0-10 points)
-          - Identify shared and unique genres
-          - Analyze genre diversity
-          - Assess cross-genre musical exploration
-          
-          2. Mood (0-10 points)
-          - Compare emotional tone of playlists
-          - Compare energy levels
-          - Compare feelings
-          
-          3. Listening Habits (0-10 points)
-          - Compare song length preferences
-          - Compare release dates
-          - Compare tempo and rhythmic preferences
-          
-          4. Artist Overlap (0-10 points)
-          - Compare shared favorite artists
-          - Highlight unique artist discoveries
-          - Analyze artist connection depth
-          
-          5. Acoustic Characteristics (0-10 points)
-          - Compare instrumentation
-          - Assess sound complexity
-          - Evaluate production style similarities
-          
-          
-          **MelodyVe Score (WITH SCORE, EACH CATEGORY IS WEIGHTED 20%**
-          - 2 sentences to conclude the analysis, final remarks, things to think upon.
-          .`,
+            content: `You are a music compatibility expert tasked with performing a deep, nuanced analysis of two Spotify user profiles. 
+            Focus on providing precise, insightful, and objective analysis across these dimensions.
+            Provide a structured JSON response with the following format. Do not provide anything else except for the JSON response.
+            {
+              "genreCompatibility": {
+                "score": 0-10,
+                "explanation": [
+                  "First bullet point explanation",
+                  "Second bullet point explanation",
+                  "Third bullet point explanation"
+                ]
+              },
+              "mood": {
+                "score": 0-10,
+                "explanation": [
+                  "First bullet point explanation",
+                  "Second bullet point explanation",
+                  "Third bullet point explanation"
+                ]
+              },
+              "artistOverlap": {
+                "score": 0-10,
+                "explanation": [
+                  "First bullet point explanation",
+                  "Second bullet point explanation",
+                  "Third bullet point explanation"
+                ]
+              },
+              "instrumentalVocalPreference": {
+                "score": 0-10,
+                "explanation": [
+                  "First bullet point explanation",
+                  "Second bullet point explanation",
+                  "Third bullet point explanation"
+                ]
+              },
+              "dancibility": {
+                "score": 0-10,
+                "explanation": [
+                  "First bullet point explanation",
+                  "Second bullet point explanation",
+                  "Third bullet point explanation"
+                ]
+              },
+              "songStories": {
+                "score": 0-10,
+                "explanation": [
+                  "First bullet point explanation",
+                  "Second bullet point explanation",
+                  "Third bullet point explanation"
+                ]
+              },
+              "totalMelodyveScore": {
+                "score": 0-100,
+                "finalRemarks": "Provide an overall analysis of the compatibility between User 1 and User 2 based on their musical preferences."
+              }
+            }`
           },
           {
             role: "user",
-            content: `This is the first user's tracks: ${truncateTracks(
-              userTracks[0],
-              4000
-            )}
-            This is the second user's tracks: ${truncateTracks(
-              userTracks[1],
-              4000
-            )}`,
-          },
-        ],
-        model: "gemma-7b-it",
+            content: `This is the first user's tracks: ${truncateTracks(userTracks[0], 4000)}
+            This is the second user's tracks: ${truncateTracks(userTracks[1], 4000)}`
+          }
+        ]
       },
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.GROQ_API_KEY}`, // Securely use the API key
-        },
+          "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
+        }
       }
     );
+    
+    // Parse the JSON content from the API response
+    let content = response.data.choices[0].message.content;
+    console.log(content);
+    content = content.replace(/```json/gi, "").trim();
+    const analysisResult = JSON.parse(content);
 
-    res.status(200).json(response.data); // Send response back to the frontend
+    res.status(200).json(analysisResult);
   } catch (error) {
-    console.error(
-      "Error interacting with Groq API:",
-      error.response?.data || error.message
-    );
+    console.error("Error interacting with Groq API:", error.response?.data || error.message);
     res.status(500).json({ error: error.response?.data || error.message });
   }
 });
