@@ -1,0 +1,83 @@
+ <div className="bg-white rounded-3xl shadow-xl w-3/4 h-3/4 space-y-8">
+            <div className="bg-secondary text-center text-white text-3xl font-black p-5 rounded-t-3xl">
+              Report
+            </div>
+
+            <div className="p-10">
+              <div className="flex flex-col-flow gap-16 text-center justify-center">
+                <div className="flex flex-col items-center justify-center gap-4 bg-accent text-white text-2xl font-bold rounded-3xl shadow-xl w-64 h-64">
+                  <img
+                    src={users[0].userData?.images[0]?.url || "user.png"}
+                    className="w-36 h-36 rounded-full"
+                    alt="User 1 Profile Pic"
+                  />
+                  <a
+                    href={
+                      users[0]?.userData?.external_urls.spotify || "user.png"
+                    }
+                    target="_blank"
+                  >
+                    {users[0]?.userData?.display_name}
+                  </a>
+                </div>
+                <div className="flex flex-col justify-center items-center gap-5">
+                  <img src="melodyve.svg" alt="melodyve" className="w-96" />
+                </div>
+                <div className="flex flex-col items-center justify-center gap-4 bg-accent text-white text-2xl font-bold rounded-3xl shadow-xl w-64 h-64">
+                  <img
+                    src={users[1].userData?.images[0]?.url}
+                    className="w-36 h-36 rounded-full"
+                    alt="User 1 Profile Pic"
+                  />
+                  <a
+                    href={users[1]?.userData?.external_urls.spotify}
+                    target="_blank"
+                  >
+                    {users[1]?.userData?.display_name}
+                  </a>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-6 m-12">
+                {sections.map(
+                  (section, index) =>
+                    section.data && (
+                      <div
+                        key={index}
+                        className="bg-base-100 rounded-2xl shadow-lg p-12 border"
+                      >
+                        <div className="flex gap-x-5 font-semibold">
+                          <div className="bg-secondary text-white rounded-full w-12 h-12 flex items-center justify-center">
+                            {section.data.score}/10
+                          </div>
+                          <h3 className="text-2xl mb-7 mt-2">
+                            {section.title}
+                          </h3>
+                        </div>
+                        <ul className="list-disc space-y-2">
+                          {section.data.explanation?.map(
+                            (item, explanationIndex) => (
+                              <li key={explanationIndex} className="font-xl">
+                                {item}
+                              </li>
+                            )
+                          )}
+                        </ul>
+                      </div>
+                    )
+                )}
+                {/* Total MelodyVe Score */}
+              </div>
+              <div className="border shadow-xl p-8 rounded-2xl text-center flex flex-col-2">
+                <div className="bg-secondary shadow-xl w-96 text-white rounded-3xl p-8">
+                  <h3 className="text-xl font-bold mb-4">meylodyVe Rating</h3>
+                  <p className="text-9xl font-extrabold mb-4">
+                    {groqResponse.totalMelodyveScore.score}
+                  </p>
+                </div>
+                <p className="p-12 text-xl">
+                  {groqResponse.totalMelodyveScore.finalRemarks}
+                </p>
+              </div>
+            </div>
+          </div>

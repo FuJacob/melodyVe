@@ -1,8 +1,6 @@
 "use client";
-import { ClipLoader } from "react-spinners";
+import { BarLoader } from "react-spinners";
 import React, { useState } from "react";
-import ErrorPopup from "./ErrorPopup";
-import Guide from "./Guide";
 import { Typewriter } from "react-simple-typewriter";
 
 const ValidationPopup = ({ onClose }) => (
@@ -15,13 +13,13 @@ const Submit = () => {
   const [inputValues, setInputValues] = useState(["", ""]);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
+  const [showInputError, setshowInputError] = useState(false);
   const [playlistTracks, setPlaylistTracks] = useState({});
   const [groqResponse, setGroqResponse] = useState(null);
 
   const handleInputChange = (index, value) => {
     const updatedInputs = [...inputValues];
-    updatedInputs[index] = value;
+    updatedInputs[index] = value.replace("https://open.spotify.com/user/", "");
     setInputValues(updatedInputs);
   };
 
@@ -89,7 +87,7 @@ const Submit = () => {
 
   const handleButtonClick = async () => {
     if (inputValues.filter((value) => value).length < 2) {
-      setShowPopup(true);
+      setshowInputError(true);
       return;
     }
 
@@ -129,225 +127,158 @@ const Submit = () => {
     }
   };
 
+  const sections = groqResponse && [
+    { title: "Genre Compatibility", data: groqResponse.genreCompatibility },
+    { title: "Mood Compatibility", data: groqResponse.mood },
+    {
+      title: "Instrumental Preference",
+      data: groqResponse.instrumentalVocalPreference,
+    },
+    { title: "Song Narrative", data: groqResponse.songStories },
+    { title: "Artist Overlap", data: groqResponse.artistOverlap },
+    { title: "Dancibility", data: groqResponse.dancibility },
+  ];
+
   return (
     <>
-      <div className="flex flex-col items-center space-y-12 bg-base-200">
-        <div className="flex flex-col justify-center place-items-center min-h-screen gap-10 w-full">
-          <img src="melodyve.svg" className="w-96" />
-          <div className="bg-accent text-white rounded-3xl shadow-xl py-4 w-2/5 text-center font-semibold text-xl">
-            <Typewriter
-              words={[
-                "discover the harmony in your favorite songs",
-                "find the melody that brings you closer",
-                "let the music reveal how connected you truly are",
-                "feel the rhythm of your compatibility",
-                "let your music bring your connection to light",
-              ]}
-              loop={0}
-              cursor
-              cursorStyle="|"
-              typeSpeed={80}
-              deleteSpeed={50}
-              delaySpeed={5000}
-            />
-          </div>
-          <div className="w-96">
-            <div className="space-y-6 bg-white p-6 rounded-3xl shadow-xl bg-gray-50">
-              {inputValues.map((value, index) => (
-                <input
-                  key={index}
-                  type="text"
-                  placeholder={`Enter username ${index + 1}`}
-                  value={value}
-                  onChange={(e) => handleInputChange(index, e.target.value)}
-                  className="input w-full text-center"
-                />
-              ))}
-              <button
-                className="btn btn-secondary w-full text-white"
-                onClick={handleButtonClick}
-              >
-                let's start
-              </button>
+      <div
+        className=" min-h-screen"
+        style={{
+          backgroundImage: "url('bg1.svg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="flex flex-col items-center space-y-12">
+          <div className="flex flex-col justify-center place-items-center min-h-screen gap-10 w-full">
+            <img src="melodyve.svg" className="w-96" />
+            <div className="bg-accent text-white rounded-3xl shadow-xl py-4 w-2/5 text-center font-semibold text-xl">
+              <Typewriter
+                words={[
+                  "discover the harmony in your favorite songs",
+                  "find the melody that brings you closer",
+                  "let the music reveal how connected you truly are",
+                  "feel the rhythm of your compatibility",
+                  "let your music bring your connection to light",
+                ]}
+                loop={0}
+                cursor
+                cursorStyle="|"
+                typeSpeed={80}
+                deleteSpeed={50}
+                delaySpeed={5000}
+              />
             </div>
-          </div>
-        </div>
-
-        {loading && (
-          <div className="spinner-container flex justify-center items-center w-full">
-            <ClipLoader size={50} color="#3498db" loading={loading} />
-          </div>
-        )}
-
-        {showPopup && <ValidationPopup onClose={() => setShowPopup(false)} />}
-
-        {groqResponse && users && (
-          <div className="flex justify-center w-full min-h-screen">
-              <div className="bg-white rounded-3xl shadow-xl w-3/4 space-y-8">
-              <div className="bg-secondary text-center text-white text-3xl font-black p-5 rounded-t-3xl">Report</div>
-
-              <div className="p-10">
-                <div className="flex flex-col-flow gap-16 text-center justify-center mb-12">
-                  <div className="flex flex-col items-center justify-center gap-4 bg-accent text-white text-2xl font-bold rounded-3xl shadow-xl w-64 h-64">
-                    <img
-                      src={users[0].userData?.images[0]?.url}
-                      className="w-36 h-36 rounded-full"
-                      alt="User 1 Profile Pic"
-                    />
-                      <a
-                        href={users[0]?.userData?.external_urls.spotify}
-                        target="_blank"
-                      >
-                        {users[0]?.userData?.display_name}
-                      </a>
-                  </div>
-                  <div className="flex flex-col justify-center items-center gap-5">
-                    <img src="melodyve.svg" alt="melodyve" className="w-96" />
-                  </div>
-                  <div className="flex flex-col items-center justify-center gap-4 bg-accent text-white text-2xl font-bold rounded-3xl shadow-xl w-64 h-64">
-                    <img
-                      src={users[1].userData?.images[0]?.url}
-                      className="w-36 h-36 rounded-full"
-                      alt="User 1 Profile Pic"
-                    />
-                      <a
-                        href={users[1]?.userData?.external_urls.spotify}
-                        target="_blank"
-                      >
-                        {users[1]?.userData?.display_name}
-                      </a>
-                  </div>
-                </div>
-  
-                <div className="grid grid-cols-2 gap-6">
-                  {/* Genre Compatibility */}
-                  <div className="bg-base-100 p-6 rounded-2xl shadow-lg p-12">
-                    <div className="flex flex-inline gap-x-5 font-semibold">
-                      <div className="bg-secondary text-white rounded-full w-12 h-12 flex items-center justify-center">
-                        {groqResponse.genreCompatibility.score}/10
-                      </div>
-                      <h3 className="text-2xl mb-7 mt-2">Genre Compatibility</h3>
+            <div className="w-96">
+              <div className="space-y-6 bg-white p-6 rounded-3xl border shadow-xl bg-gray-50">
+                {inputValues.map((value, index) => (
+                  <input
+                    key={index}
+                    type="text"
+                    placeholder={`enter user ${index + 1} link or id`}
+                    value={value}
+                    onChange={(e) => handleInputChange(index, e.target.value)}
+                    className={`input w-full text-center ${
+                      showInputError ? "border-2 border-rose-500" : ""
+                    }`}
+                    onBlur={() => setshowInputError(false)}
+                  />
+                ))}
+                <button
+                  className="btn btn-secondary w-full text-white"
+                  onClick={handleButtonClick}
+                >
+                  {loading ? (
+                    <div className="flex justify-center">
+                      <BarLoader size={100} color="#ffffff" loading={loading} />
                     </div>
-                    <ul class="list-disc space-y-2">
-                      {groqResponse.genreCompatibility.explanation.map(
-                        (item, index) => (
-                          <li key={index} className="font-xl">
-                            {item}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                    </div>
-  
-                  {/* Mood Compatibility */}
-                  <div className="bg-base-100 p-6 rounded-2xl shadow-lg p-12">
-                    <div className="flex flex-inline gap-x-5 font-semibold">
-                      <div className="bg-secondary text-white rounded-full w-12 h-12 flex items-center justify-center">
-                        {groqResponse.mood.score}/10
-                      </div>
-                      <h3 className="text-2xl mb-7 mt-2">Mood Compatibility</h3>
-                    </div>
-                    <ul class="list-disc space-y-2">
-                      {groqResponse.mood.explanation.map((item, index) => (
-                        <li key={index} className="font-xl">
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                    </div>
-  
-                  {/* Instrumental Preference */}
-                  <div className="bg-base-100 p-6 rounded-2xl shadow-lg p-12">
-                    <div className="flex flex-inline gap-x-5 font-semibold">
-                      <div className="bg-secondary text-white rounded-full w-12 h-12 flex items-center justify-center">
-                        {groqResponse.instrumentalVocalPreference.score}/10
-                      </div>
-                      <h3 className="text-2xl mb-7 mt-2">
-                        Instrumental Preference
-                      </h3>
-                    </div>
-                    <ul class="list-disc space-y-2">
-                      {groqResponse.instrumentalVocalPreference.explanation.map(
-                        (item, index) => (
-                          <li key={index} className="font-xl">
-                            {item}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                    </div>
-  
-                  {/* Song Narrative */}
-                  <div className="bg-base-100 p-6 rounded-2xl shadow-lg p-12">
-                    <div className="flex flex-inline gap-x-5 font-semibold">
-                      <div className="bg-secondary text-white rounded-full w-12 h-12 flex items-center justify-center">
-                        {groqResponse.songStories.score}/10
-                      </div>
-                      <h3 className="text-2xl mb-7 mt-2">Song Narrative</h3>
-                    </div>
-                    <ul class="list-disc space-y-2">
-                      {groqResponse.songStories.explanation.map((item, index) => (
-                        <li key={index} className="font-xl">
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                    </div>
-  
-                  {/* Artist Overlap */}
-                  <div className="bg-base-100 p-6 rounded-2xl shadow-lg p-12">
-                    <div className="flex flex-inline gap-x-5 font-semibold">
-                      <div className="bg-secondary text-white rounded-full w-12 h-12 flex items-center justify-center">
-                        {groqResponse.artistOverlap.score}/10
-                      </div>
-                      <h3 className="text-2xl mb-7 mt-2">Artist Overlap</h3>
-                    </div>
-                    <ul class="list-disc space-y-2">
-                      {groqResponse.artistOverlap.explanation.map(
-                        (item, index) => (
-                          <li key={index} className="font-xl">
-                            {item}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                    </div>
-  
-                  {/* Dancibility */}
-                  <div className="bg-base-100 p-6 rounded-2xl shadow-lg p-12">
-                    <div className="flex flex-inline gap-x-5 font-semibold">
-                      <div className="bg-secondary text-white rounded-full w-12 h-12 flex items-center justify-center">
-                        {groqResponse.dancibility.score}/10
-                      </div>
-                      <h3 className="text-2xl mb-7 mt-2">Dancibility</h3>
-                    </div>
-                    <ul class="list-disc space-y-2">
-                      {groqResponse.dancibility.explanation.map((item, index) => (
-                        <li key={index} className="font-xl">
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-  
-                  {/* Total MelodyVe Score */}
-                </div>
-                <div className="bg-secondary text-white p-8 rounded-2xl text-center">
-                  <h3 className="text-3xl font-bold mb-4">MelodyVe Rating</h3>
-                  <p className="text-5xl font-extrabold mb-4">
-                    {groqResponse.totalMelodyveScore.score}
-                  </p>
-                  <p className="text-xl italic">
-                    {groqResponse.totalMelodyveScore.finalRemarks}
-                  </p>
-                </div>
+                  ) : (
+                    <p>get started</p>
+                  )}
+                </button>
               </div>
             </div>
           </div>
-        )}
-
-        <Guide />
+        </div>
       </div>
+
+      {groqResponse && users && (
+        <div className="flex justify-center items-center min-h-screen">
+          <div className="flex-col w-3/4">
+            <div className="p-5">
+              <div className="flex flex-col-flow gap-16 text-center justify-center">
+                <div className="flex flex-col items-center justify-center gap-4 bg-accent text-white text-2xl font-bold rounded-3xl shadow-xl w-44 h-44">
+                  <img
+                    src={users[0].userData?.images[0]?.url || "user.png"}
+                    className="w-24 h-24 rounded-full"
+                    alt="User 1 Profile Pic"
+                  />
+                  <a
+                    href={
+                      users[0]?.userData?.external_urls.spotify || "user.png"
+                    }
+                    target="_blank"
+                  >
+                    {users[0]?.userData?.display_name}
+                  </a>
+                </div>
+                <div className="flex flex-cols border shadow-xl p-5 space-y-12 w-1/2 rounded-2xl text-center">
+                 
+                <div>
+                   <h3 className="text-xl font-semibold mb-4">melodyVe score</h3>
+                  <p className="text-5xl font-black">
+                    {groqResponse.totalMelodyveScore.score}/100
+                  </p>
+                   {groqResponse.totalMelodyveScore.finalRemarks}</div>
+                </div>
+
+                <div className="flex flex-col items-center justify-center gap-4 bg-accent text-white text-2xl font-bold rounded-3xl shadow-xl w-44 h-44">
+                  <img
+                    src={users[1].userData?.images[0]?.url}
+                    className="w-24 h-24 rounded-full"
+                    alt="User 1 Profile Pic"
+                  />
+                  <a
+                    href={users[1]?.userData?.external_urls.spotify}
+                    target="_blank"
+                  >
+                    {users[1]?.userData?.display_name}
+                  </a>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-6 m-6">
+                {sections.map(
+                  (section, index) =>
+                    section.data && (
+                      <div
+                        key={index}
+                        className="bg-base-100 rounded-2xl shadow-lg p-12 border"
+                      >
+                        <div className="flex gap-x-5 font-semibold">
+                          <div className="bg-secondary text-white rounded-full w-12 h-12 flex items-center justify-center">
+                            {section.data.score}/10
+                          </div>
+                          <h3 className="text-2xl mb-7 mt-2">
+                            {section.title}
+                          </h3>
+                        </div>
+                        <ul className="list-disc space-y-2">
+                          {section.data.explanation?.map(
+                            (item, explanationIndex) => (
+                              <li key={explanationIndex}>{item}</li>
+                            )
+                          )}
+                        </ul>
+                      </div>
+                    )
+                )}
+                {/* Total MelodyVe Score */}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

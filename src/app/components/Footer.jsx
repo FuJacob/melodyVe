@@ -1,10 +1,13 @@
-import React from 'react'
+import React from "react";
 
 const Footer = () => {
   return (
-<footer className="footer p-3 text-center justify-center ">
-    <h1 className="bg-accent font-semibold text-white rounded-xl shadow-xl p-2">Designed and Built by Jacob Fu</h1>
-</footer>  )
-}
+    <footer className="footer bg-accent p-2 text-center justify-center font-semibold text-white">
+      <a href="https://www.linkedin.com/in/fujacob" target="_blank">
+        developed by Jacob Fu
+      </a>
+    </footer>
+  );
+};
 
-export default Footer
+export default Footer;

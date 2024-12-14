@@ -249,7 +249,7 @@ app.post("/sendToGroq", async (req, res) => {
     // Parse the JSON content from the API response
     let content = response.data.choices[0].message.content;
     console.log(content);
-    content = content.replace(/```json/gi, "").trim();
+    content = content.replace(/```json/gi, "").replace(/```/g, "").trim();
     const analysisResult = JSON.parse(content);
 
     res.status(200).json(analysisResult);

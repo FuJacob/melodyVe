@@ -4,18 +4,21 @@ import Link from "next/link";
 
 const Navbar = () => {
   return (
-    <div className="navbar fixed gap-2">
+    <div className="navbar fixed gap-2 border bg-base-100">
       <div className="flex-1">
         <Link href="/">
           <img src="melodyve.svg" className="w-24 ml-5" />
         </Link>
       </div>
       <Link href="/">
-        <button className="btn btn-secondary text-white">
-          home
-        </button>
+        <button className="btn btn-ghost">home</button>
       </Link>
-      <button className="btn btn-secondary text-white">about</button>
+      <Link href="/about">
+        <button className="btn btn-ghost">about</button>
+      </Link>
+      <Link href="/input">
+        <button className="btn btn-sm btn-secondary text-white">try now</button>
+      </Link>
     </div>
   );
 };
