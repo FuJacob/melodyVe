@@ -20,9 +20,11 @@ const Hero = () => {
           transition={{
             delay: 0.5,
             duration: 2,
+            ease: "easeIn"
+
           }}
         >
-          <h1 className="text-3xl font-bold">introducing</h1>
+          <img src="melodyve.svg" className="w-[34rem]" />
         </motion.div>
         <motion.div
           initial={{ opacity: 0 }}
@@ -30,16 +32,8 @@ const Hero = () => {
           transition={{
             delay: 1,
             duration: 2,
-          }}
-        >
-          <img src="melodyve.svg" className="w-96" />
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            delay: 1.5,
-            duration: 2,
+            ease: "easeIn"
+
           }}
           className="bg-accent text-white rounded-3xl shadow-xl py-4 w-2/5 text-center font-semibold text-xl mt-12"
 
@@ -65,7 +59,7 @@ const Hero = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{
-            delay: 2,
+            delay: 1.5,
             duration: 2,
             ease: "easeIn"
           }}

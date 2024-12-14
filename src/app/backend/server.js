@@ -180,81 +180,93 @@ app.post("/sendToGroq", async (req, res) => {
               "genreCompatibility": {
                 "score": 0-10,
                 "explanation": [
-                  "First bullet point explanation",
-                  "Second bullet point explanation",
-                  "Third bullet point explanation"
+                  "First bullet point explanation (keep explanation equal to 16 words)",
+                  "Second bullet point explanation (keep explanation equal to 16 words)",
+                  "Third bullet point explanation (keep explanation equal to 16 words)"
                 ]
               },
               "mood": {
                 "score": 0-10,
                 "explanation": [
-                  "First bullet point explanation",
-                  "Second bullet point explanation",
-                  "Third bullet point explanation"
+                 "First bullet point explanation (keep explanation equal to 16 words)",
+                  "Second bullet point explanation (keep explanation equal to 16 words)",
+                  "Third bullet point explanation (keep explanation equal to 16 words)"
                 ]
               },
               "artistOverlap": {
                 "score": 0-10,
                 "explanation": [
-                  "First bullet point explanation",
-                  "Second bullet point explanation",
-                  "Third bullet point explanation"
+                 "First bullet point explanation (keep explanation equal to 16 words)",
+                  "Second bullet point explanation (keep explanation equal to 16 words)",
+                  "Third bullet point explanation (keep explanation equal to 16 words)"
                 ]
               },
               "instrumentalVocalPreference": {
                 "score": 0-10,
                 "explanation": [
-                  "First bullet point explanation",
-                  "Second bullet point explanation",
-                  "Third bullet point explanation"
+                  "First bullet point explanation (keep explanation equal to 16 words)",
+                  "Second bullet point explanation (keep explanation equal to 16 words)",
+                  "Third bullet point explanation (keep explanation equal to 16 words)"
                 ]
               },
-              "dancibility": {
+              "vibes": {
                 "score": 0-10,
                 "explanation": [
-                  "First bullet point explanation",
-                  "Second bullet point explanation",
-                  "Third bullet point explanation"
+                  "First bullet point explanation (keep explanation equal to 16 words)",
+                  "Second bullet point explanation (keep explanation equal to 16 words)",
+                  "Third bullet point explanation (keep explanation equal to 16 words)"
                 ]
               },
               "songStories": {
                 "score": 0-10,
                 "explanation": [
-                  "First bullet point explanation",
-                  "Second bullet point explanation",
-                  "Third bullet point explanation"
+               "First bullet point explanation (keep explanation equal to 16 words)",
+                  "Second bullet point explanation (keep explanation equal to 16 words)",
+                  "Third bullet point explanation (keep explanation equal to 16 words)"
                 ]
               },
               "totalMelodyveScore": {
                 "score": 0-100,
                 "finalRemarks": "Provide an overall analysis of the compatibility between User 1 and User 2 based on their musical preferences."
               }
-            }`
+            }`,
           },
           {
             role: "user",
-            content: `This is the first user's tracks: ${truncateTracks(userTracks[0], 4000)}
-            This is the second user's tracks: ${truncateTracks(userTracks[1], 4000)}`
-          }
-        ]
+            content: `This is the first user's tracks: ${truncateTracks(
+              userTracks[0],
+              4000
+            )}
+            This is the second user's tracks: ${truncateTracks(
+              userTracks[1],
+              4000
+            )}`,
+          },
+        ],
       },
       {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
-        }
+          Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
+        },
       }
     );
-    
+
     // Parse the JSON content from the API response
     let content = response.data.choices[0].message.content;
     console.log(content);
-    content = content.replace(/```json/gi, "").replace(/```/g, "").trim();
+    content = content
+      .replace(/```json/gi, "")
+      .replace(/```/g, "")
+      .trim();
     const analysisResult = JSON.parse(content);
 
     res.status(200).json(analysisResult);
   } catch (error) {
-    console.error("Error interacting with Groq API:", error.response?.data || error.message);
+    console.error(
+      "Error interacting with Groq API:",
+      error.response?.data || error.message
+    );
     res.status(500).json({ error: error.response?.data || error.message });
   }
 });
