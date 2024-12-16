@@ -14,6 +14,8 @@ const Hero = () => {
         className="hero min-h-screen flex flex-col items-center justify-center"
         style={{
           backgroundImage: "url('bg.svg')",
+          backgroundSize: "cover",
+          backgroundPosition: "50% 100%"
         }}
       >
         <motion.div
