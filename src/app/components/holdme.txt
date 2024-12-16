@@ -1,83 +1,103 @@
- <div className="bg-white rounded-3xl shadow-xl w-3/4 h-3/4 space-y-8">
-            <div className="bg-secondary text-center text-white text-3xl font-black p-5 rounded-t-3xl">
-              Report
-            </div>
+<div className='flex flex-row gap-5'>
+						<div className='card bg-base-100 w-96 h-1/2 shadow-xl'>
+							<div className='card-body flex place-items-center'>
+								<h2 className='font-black text-3xl mb-5'>step 1</h2>
+								<ul className='list-disc font-medium space-y-4'>
+									<li>enter your Spotify IDs</li>
+									<li>melodyVe connects to Spotify’s API.</li>
+									<li>your unique musical data is ready.</li>
+								</ul>
+							</div>
+						</div>
+						<div className='card bg-base-100 w-96 shadow-xl'>
+							<div className='card-body flex place-items-center'>
 
-            <div className="p-10">
-              <div className="flex flex-col-flow gap-16 text-center justify-center">
-                <div className="flex flex-col items-center justify-center gap-4 bg-accent text-white text-2xl font-bold rounded-3xl shadow-xl w-64 h-64">
-                  <img
-                    src={users[0].userData?.images[0]?.url || "user.png"}
-                    className="w-36 h-36 rounded-full"
-                    alt="User 1 Profile Pic"
-                  />
-                  <a
-                    href={
-                      users[0]?.userData?.external_urls.spotify || "user.png"
-                    }
-                    target="_blank"
-                  >
-                    {users[0]?.userData?.display_name}
-                  </a>
-                </div>
-                <div className="flex flex-col justify-center items-center gap-5">
-                  <img src="melodyve.svg" alt="melodyve" className="w-96" />
-                </div>
-                <div className="flex flex-col items-center justify-center gap-4 bg-accent text-white text-2xl font-bold rounded-3xl shadow-xl w-64 h-64">
-                  <img
-                    src={users[1].userData?.images[0]?.url}
-                    className="w-36 h-36 rounded-full"
-                    alt="User 1 Profile Pic"
-                  />
-                  <a
-                    href={users[1]?.userData?.external_urls.spotify}
-                    target="_blank"
-                  >
-                    {users[1]?.userData?.display_name}
-                  </a>
-                </div>
-              </div>
+							<figure>
+								<img
+									src='spotify.png'
+									alt='Shoes'
+									className='w-96 h-56 object-cover'
+								/>
+							</figure>
+							</div>
+						</div>
+					</div>
 
-              <div className="grid grid-cols-2 gap-6 m-12">
-                {sections.map(
-                  (section, index) =>
-                    section.data && (
-                      <div
-                        key={index}
-                        className="bg-base-100 rounded-2xl shadow-lg p-12 border"
-                      >
-                        <div className="flex gap-x-5 font-semibold">
-                          <div className="bg-secondary text-white rounded-full w-12 h-12 flex items-center justify-center">
-                            {section.data.score}/10
-                          </div>
-                          <h3 className="text-2xl mb-7 mt-2">
-                            {section.title}
-                          </h3>
-                        </div>
-                        <ul className="list-disc space-y-2">
-                          {section.data.explanation?.map(
-                            (item, explanationIndex) => (
-                              <li key={explanationIndex} className="font-xl">
-                                {item}
-                              </li>
-                            )
-                          )}
-                        </ul>
-                      </div>
-                    )
-                )}
-                {/* Total MelodyVe Score */}
-              </div>
-              <div className="border shadow-xl p-8 rounded-2xl text-center flex flex-col-2">
-                <div className="bg-secondary shadow-xl w-96 text-white rounded-3xl p-8">
-                  <h3 className="text-xl font-bold mb-4">meylodyVe Rating</h3>
-                  <p className="text-9xl font-extrabold mb-4">
-                    {groqResponse.totalMelodyveScore.score}
-                  </p>
-                </div>
-                <p className="p-12 text-xl">
-                  {groqResponse.totalMelodyveScore.finalRemarks}
-                </p>
-              </div>
-            </div>
-          </div>
+					<div className='flex flex-row gap-5'>
+						<div className='card bg-base-100 w-96 shadow-xl'>
+							<div className='card-body flex place-items-center'>
+								<h2 className='font-black text-3xl mb-5'>step 2</h2>
+								<ul className='list-disc font-medium space-y-4'>
+									<li>melodyVe listens to your music with AI</li>
+									<li>it finds patterns and shared interests</li>
+									<li>your bond is explored through music</li>
+								</ul>
+							</div>
+							<figure>
+								<img
+									src='audio.png'
+									alt='Shoes'
+									className='w-96 h-56 object-cover'
+								/>
+							</figure>
+						</div>
+						<div className='card bg-base-100 w-96 shadow-xl'>
+							<div className='card-body flex place-items-center'>
+								<h2 className='font-black text-3xl mb-5'>step 2</h2>
+								<ul className='list-disc font-medium space-y-4'>
+									<li>melodyVe listens to your music with AI</li>
+									<li>it finds patterns and shared interests</li>
+									<li>your bond is explored through music</li>
+								</ul>
+							</div>
+							<figure>
+								<img
+									src='audio.png'
+									alt='Shoes'
+									className='w-96 h-56 object-cover'
+								/>
+							</figure>
+						</div>
+					</div>
+
+					<div className='flex flex-row gap-5'>
+						<div className='card bg-base-100 w-96 shadow-xl'>
+							<div className='card-body flex place-items-center'>
+								<h2 className='font-black text-3xl mb-5'>final step</h2>
+								<ul className='list-disc font-medium space-y-4'>
+									<li>melodyVe presents its findings</li>
+									<li>see how your music matches</li>
+									<li>find the harmony between your songs</li>
+								</ul>
+							</div>
+							<figure>
+								<img
+									src='love-song.png'
+									alt='Shoes'
+									className='w-96 h-56 object-cover'
+								/>
+							</figure>
+						</div>
+
+						<div className='card bg-base-100 w-96 shadow-xl'>
+							<div className='card-body flex place-items-center'>
+								<h2 className='font-black text-3xl mb-5'>final step</h2>
+								<ul className='list-disc font-medium space-y-4'>
+									<li>melodyVe presents its findings</li>
+									<li>see how your music matches</li>
+									<li>find the harmony between your songs</li>
+								</ul>
+							</div>
+							<figure>
+								<img
+									src='love-song.png'
+									alt='Shoes'
+									className='w-96 h-56 object-cover'
+								/>
+							</figure>
+						</div>
+					</div>
+
+					{/* Step 2 */}
+				</div>
+			</div>

@@ -5,6 +5,8 @@ import { Typewriter } from "react-simple-typewriter";
 import { FaSearch } from "react-icons/fa";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import Guide from "./Guide";
+import Features from "./Features";
 const Hero = () => {
   return (
     <>
@@ -70,6 +72,8 @@ const Hero = () => {
           </Link>
         </motion.div>
       </div>
+      <Guide />
+      <Features />
     </>
   );
 };
