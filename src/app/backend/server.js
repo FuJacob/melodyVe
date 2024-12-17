@@ -177,7 +177,7 @@ app.post("/sendToGroq", async (req, res) => {
             Focus on providing precise, insightful, and objective analysis across these dimensions.
             Provide a structured JSON response with the following format. Do not provide anything else except for the JSON response.
             {
-              "genreCompatibility": {
+              "genrePreferences": {
                 "score": 0-10,
                 "explanation": [
                   "First bullet point explanation (keep explanation equal to 16 words)",
@@ -209,7 +209,7 @@ app.post("/sendToGroq", async (req, res) => {
                   "Third bullet point explanation (keep explanation equal to 16 words)"
                 ]
               },
-              "vibes": {
+              "timePeriods": {
                 "score": 0-10,
                 "explanation": [
                   "First bullet point explanation (keep explanation equal to 16 words)",
@@ -217,7 +217,7 @@ app.post("/sendToGroq", async (req, res) => {
                   "Third bullet point explanation (keep explanation equal to 16 words)"
                 ]
               },
-              "songStories": {
+              "songMeanings": {
                 "score": 0-10,
                 "explanation": [
                "First bullet point explanation (keep explanation equal to 16 words)",

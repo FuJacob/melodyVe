@@ -1,7 +1,7 @@
 'use client';
 import { BarLoader } from 'react-spinners';
 import React, { useRef, useState, useEffect } from 'react';
-
+import { motion } from 'framer-motion';
 const Submit = () => {
 	const [inputValues, setInputValues] = useState(['', '']);
 	const [users, setUsers] = useState([]);
@@ -129,15 +129,15 @@ const Submit = () => {
 	};
 
 	const sections = groqResponse && [
-		{ title: 'Genre Compatibility', data: groqResponse.genreCompatibility },
-		{ title: 'Mood Compatibility', data: groqResponse.mood },
+		{ title: 'Genre Preference', data: groqResponse.genrePreference },
+		{ title: 'Mood Preference', data: groqResponse.mood },
 		{
-			title: 'Instrumental Preference',
+			title: 'Instrumental vs Vocal',
 			data: groqResponse.instrumentalVocalPreference,
 		},
-		{ title: 'Song Narrative', data: groqResponse.songStories },
+		{ title: 'Song Meanings', data: groqResponse.songMeanings },
 		{ title: 'Artist Overlap', data: groqResponse.artistOverlap },
-		{ title: 'Vibes', data: groqResponse.vibes },
+		{ title: 'Time Periods', data: groqResponse.timePeriosd },
 	];
 
 	return (
@@ -151,38 +151,60 @@ const Submit = () => {
 				}}>
 				<div className='flex flex-col items-center space-y-12'>
 					<div className='flex flex-col justify-center place-items-center min-h-screen gap-10 w-full'>
-						<img src='melodyve.svg' className='w-[34rem] mt-24' />
-						<div className='w-96'>
-							<div className='space-y-6 bg-white p-6 rounded-3xl border shadow-xl bg-gray-50 text-center'>
-								<h1 className='font-semibold'>
-									begin by entering both user profiles
-								</h1>{' '}
-								{inputValues.map((value, index) => (
-									<input
-										key={index}
-										type='text'
-										placeholder={`user ${index + 1} link/id`}
-										value={value}
-										onChange={(e) => handleInputChange(index, e.target.value)}
-										className={`input w-full text-center ${
-											showInputError ? 'border-2 border-rose-500' : ''
-										}`}
-										onBlur={() => setshowInputError(false)}
-									/>
-								))}
-								<button
-									className='btn btn-secondary w-full text-white'
-									onClick={handleButtonClick}>
-									{loading ? (
-										<div className='flex justify-center'>
-											<BarLoader size={100} color='#ffffff' loading={loading} />
-										</div>
-									) : (
-										<p>get started</p>
-									)}
-								</button>
+						<motion.div
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							transition={{
+								delay: 0.5,
+								duration: 2,
+							}}>
+							<img src='melodyve.svg' className='w-[34rem] mt-24' />
+						</motion.div>{' '}
+						<motion.div
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							transition={{
+								delay: 1,
+								duration: 2,
+							}}>
+							{' '}
+							<div className='w-96'>
+								<div className='space-y-6 bg-white p-6 rounded-3xl border shadow-xl bg-gray-50 text-center'>
+									<h1 className='font-semibold'>
+										begin by entering both user profiles
+									</h1>{' '}
+									{inputValues.map((value, index) => (
+										<input
+											key={index}
+											type='text'
+											placeholder={`user ${index + 1} link/id`}
+											value={value}
+											onChange={(e) => handleInputChange(index, e.target.value)}
+											className={`input w-full text-center ${
+												showInputError ? 'border-2 border-rose-500' : ''
+											}`}
+											onBlur={() => setshowInputError(false)}
+										/>
+									))}
+									{showInputError ? <p className='text-secondary text-sm'>Please enter in 2 user profiles</p> : ''}
+									<button
+										className='btn btn-secondary w-full text-white'
+										onClick={handleButtonClick}>
+										{loading ? (
+											<div className='flex justify-center'>
+												<BarLoader
+													size={100}
+													color='#ffffff'
+													loading={loading}
+												/>
+											</div>
+										) : (
+											<p>get started</p>
+										)}
+									</button>
+								</div>
 							</div>
-						</div>
+						</motion.div>
 					</div>
 				</div>
 			</div>

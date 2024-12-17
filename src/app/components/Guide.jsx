@@ -10,7 +10,7 @@ const Guide = () => {
 					backgroundSize: 'cover',
 				}}>
 				<div className='flex flex-col items-center gap-5'>
-					<div className='flex flex-inline text-6xl font-black mt-36'>
+					<div className='flex flex-inline text-6xl font-black mt-40'>
 						<h1>How does</h1> <img src='melodyve.svg' className='w-40 mx-6' />
 						<h1>work?</h1>
 					</div>
@@ -21,48 +21,53 @@ const Guide = () => {
 					<div className='flex flex-col gap-5 m-16'>
 						<div className='flex flex-row gap-12'>
 							<div className='bg-base-100 shadow-xl rounded-3xl w-[30rem] h-[16rem] border p-12'>
-								<h1 className='font-bold text-3xl mb-3'>Step 1</h1>
-								<p className='text-xl'>
-									My feet are sweating profusely. An hour after putting on shoes
-									my socks are full of moisture and my feet feel like they're
-									freezing to death.
+								<h1 className='font-bold text-3xl mb-5'>
+									Step 1 - Retrieving Data
+								</h1>
+								<p>
+									Your musical gateway opens when you share your Spotify
+									profile, allowing meylodVe to dive deep into your streaming
+									patterns, saved tracks, and listening behaviors.
 								</p>
 							</div>
 							<div className='bg-base-100 shadow-xl rounded-3xl w-[30rem] h-[16rem] border p-12'>
 								<div className='flex justify-center'>
-									<img className='w-36' src='spotify.png' alt='picture' />
+									<img className='w-40' src='data-collection.png' alt='picture' />
 								</div>
 							</div>
 						</div>
-	
+
 						<div className='flex flex-row gap-12'>
 							<div className='bg-base-100 shadow-xl rounded-3xl w-[30rem] h-[16rem] border p-12'>
 								<div className='flex justify-center'>
-									<img className='w-36' src='spotify.png' alt='picture' />
+									<img className='w-40' src='machine.png' alt='picture' />
 								</div>
 							</div>
 							<div className='bg-base-100 shadow-xl rounded-3xl w-[30rem] h-[16rem] border p-12'>
-								<h1 className='font-bold text-3xl mb-3'>Step 2</h1>
-								<p className='text-xl'>
-									My feet are sweating profusely. An hour after putting on shoes
-									my socks are full of moisture and my feet feel like they're
-									freezing to death.
+								<h1 className='font-bold text-3xl mb-5'>
+									Step 2 - Analyzing Data
+								</h1>
+								<p>
+									meylodVe's AI examines both profiles simultaneously,
+									uncovering hidden connections through data points
+									like streaming history, and listening
+									patterns.
 								</p>
 							</div>
 						</div>
-	
+
 						<div className='flex flex-row gap-12'>
 							<div className='bg-base-100 shadow-xl rounded-3xl w-[30rem] h-[16rem] border p-12'>
-								<h1 className='font-bold text-3xl mb-3'>Step 3</h1>
-								<p className='text-xl'>
-									My feet are sweating profusely. An hour after putting on shoes
-									my socks are full of moisture and my feet feel like they're
-									freezing to death.
+								<h1 className='font-bold text-3xl mb-5'>Step 5 - Present Findings</h1>
+								<p>
+									The final step transforms raw data into meaningful insights,
+									calculating compatibility scores across six categories and
+									presenting a clear picture of your musical chemistry.
 								</p>
 							</div>
 							<div className='bg-base-100 shadow-xl rounded-3xl w-[30rem] h-[16rem] border p-12'>
 								<div className='flex justify-center'>
-									<img className='w-36' src='spotify.png' alt='picture' />
+									<img className='w-40' src='analysis.png' alt='picture' />
 								</div>
 							</div>
 						</div>
