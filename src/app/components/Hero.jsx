@@ -5,15 +5,14 @@ import { Typewriter } from "react-simple-typewriter";
 import { FaSearch } from "react-icons/fa";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import Guide from "./Guide";
-import Features from "./Features";
+
 const Hero = () => {
   return (
     <>
       <div
         className="hero min-h-screen flex flex-col items-center justify-center"
         style={{
-          backgroundImage: "url('bg.svg')",
+          backgroundImage: "url('bg1.svg')",
           backgroundSize: "cover",
           backgroundPosition: "50% 100%"
         }}
@@ -74,8 +73,7 @@ const Hero = () => {
           </Link>
         </motion.div>
       </div>
-      <Guide />
-      <Features />
+
     </>
   );
 };
