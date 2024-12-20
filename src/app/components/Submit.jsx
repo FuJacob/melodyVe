@@ -171,7 +171,7 @@ const Submit = () => {
 								duration: 2,
 							}}>
 							{' '}
-							<motion.div whileHover={{scale: 1.05}}>
+							<motion.div whileHover={{ scale: 1.05 }}>
 								<div className='w-96'>
 									<div className='space-y-6 bg-white p-6 rounded-3xl border shadow-xl bg-gray-50 text-center'>
 										<h1 className='font-semibold'>
@@ -183,7 +183,9 @@ const Submit = () => {
 												type='text'
 												placeholder={`user ${index + 1} link/id`}
 												value={value}
-												onChange={(e) => handleInputChange(index, e.target.value)}
+												onChange={(e) =>
+													handleInputChange(index, e.target.value)
+												}
 												className={`input w-full text-center ${
 													showInputError ? 'border-2 border-rose-500' : ''
 												}`}
@@ -235,7 +237,9 @@ const Submit = () => {
 									delay: 0.5,
 									duration: 2,
 								}}>
-								<div className='flex gap-6 text-center justify-center'>
+								<div
+									ref={goToReport}
+									className='flex gap-6 text-center justify-center'>
 									<motion.div whileHover={{ scale: 1.05 }}>
 										<div className='flex flex-col items-center justify-center gap-4 text-2xl font-bold rounded-3xl shadow-xl w-60 h-60'>
 											<img
@@ -243,17 +247,18 @@ const Submit = () => {
 												className='w-24 h-24 rounded-full'
 												alt='User 1 Profile Pic'
 											/>
-	
+
 											<a
 												className='flex items-center hover:text-secondary'
 												href={
-													users[0]?.userData?.external_urls.spotify || 'user.png'
+													users[0]?.userData?.external_urls.spotify ||
+													'user.png'
 												}
 												target='_blank'>
 												{users[0]?.userData?.display_name}
 												<FaSpotify size={20} className='ml-2' />
 											</a>
-	
+
 											<div className='dropdown dropdown-bottom'>
 												<div
 													tabIndex={0}
@@ -274,7 +279,7 @@ const Submit = () => {
 																	<img
 																		src={playlistItem.images[0].url}
 																		className='rounded-3xl transition duration-300 hover:brightness-60'
-																		/>
+																	/>
 																	<h1 className='mt-3'>
 																		{' '}
 																		{playlistItem.name || 'Spotify Playlist'}
@@ -290,21 +295,19 @@ const Submit = () => {
 											</div>
 										</div>
 									</motion.div>
-									
-												<div
-													ref={goToReport}
-													className='flex flex-col border space-y-6 shadow-xl p-5 w-1/2 rounded-2xl text-center'>
-													<div className='flex flex-inline justify-center space-x-2'>
-														<img src='melodyve.svg' className='w-24' />
-														<h3 className='text-2xl font-semibold'>score</h3>
-													</div>
-													<p className='text-5xl font-black'>
-														{groqResponse.totalMelodyveScore.score}/100
-													</p>
-													<p>{groqResponse.totalMelodyveScore.finalRemarks}</p>
-												</div>
 
-									<motion.div whileHover={{scale: 1.05}}>
+									<div className='flex flex-col border space-y-6 shadow-xl p-5 w-1/2 rounded-2xl text-center'>
+										<div className='flex flex-inline justify-center space-x-2'>
+											<img src='melodyve.svg' className='w-24' />
+											<h3 className='text-2xl font-semibold'>score</h3>
+										</div>
+										<p className='text-5xl font-black'>
+											{groqResponse.totalMelodyveScore.score}/100
+										</p>
+										<p>{groqResponse.totalMelodyveScore.finalRemarks}</p>
+									</div>
+
+									<motion.div whileHover={{ scale: 1.05 }}>
 										<div className='flex flex-col items-center justify-center gap-4 text-2xl font-bold rounded-3xl shadow-xl w-60 h-60'>
 											<img
 												src={users[1].userData?.images[0]?.url}
@@ -314,7 +317,8 @@ const Submit = () => {
 											<a
 												className='flex items-center hover:text-secondary'
 												href={
-													users[1]?.userData?.external_urls.spotify || 'user.png'
+													users[1]?.userData?.external_urls.spotify ||
+													'user.png'
 												}
 												target='_blank'>
 												{users[1]?.userData?.display_name}
@@ -340,7 +344,7 @@ const Submit = () => {
 																	<img
 																		src={playlistItem.images[0].url}
 																		className='rounded-3xl transition duration-300 hover:brightness-60'
-																		/>
+																	/>
 																	<h1 className='mt-3'>
 																		{' '}
 																		{playlistItem.name || 'Spotify Playlist'}
@@ -358,14 +362,18 @@ const Submit = () => {
 									</motion.div>
 								</div>
 							</motion.div>
-
+							<motion.div
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								transition={{
+									delay: 1,
+									duration: 2,
+								}}>
 								<div className='grid grid-cols-2 gap-6 m-6'>
 									{sections.map(
 										(section, index) =>
 											section.data && (
-												<motion.div
-													whileHover={{ scale: 1.05 }}
-													key={index}>
+												<motion.div whileHover={{ scale: 1.05 }} key={index}>
 													<div className='bg-base-100 rounded-2xl shadow-lg p-8 border'>
 														<div className='flex gap-x-5 font-semibold'>
 															<div className='bg-secondary text-white rounded-xl w-12 flex items-center justify-center'>
@@ -386,6 +394,7 @@ const Submit = () => {
 									)}
 									{/* Total MelodyVe Score */}
 								</div>
+							</motion.div>
 						</div>
 					</div>
 				</div>

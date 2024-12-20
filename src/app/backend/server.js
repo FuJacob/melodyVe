@@ -180,49 +180,49 @@ app.post('/sendToGroq', async (req, res) => {
               "genrePreferences": {
                 "score": 0-10,
                 "explanation": [
-                  "First bullet point explanation (keep explanation equal to 16 words)",
-                  "Second bullet point explanation (keep explanation equal to 16 words)",
-                  "Third bullet point explanation (keep explanation equal to 16 words)"
+                  "First bullet point explanation (keep explanation equal to 15 words)",
+                  "Second bullet point explanation (keep explanation equal to 15 words)",
+                  "Third bullet point explanation (keep explanation equal to 15 words)"
                 ]
               },
               "mood": {
                 "score": 0-10,
                 "explanation": [
-                 "First bullet point explanation (keep explanation equal to 16 words)",
-                  "Second bullet point explanation (keep explanation equal to 16 words)",
-                  "Third bullet point explanation (keep explanation equal to 16 words)"
+                 "First bullet point explanation (keep explanation equal to 15 words)",
+                  "Second bullet point explanation (keep explanation equal to 15 words)",
+                  "Third bullet point explanation (keep explanation equal to 15 words)"
                 ]
               },
               "artistOverlap": {
                 "score": 0-10,
                 "explanation": [
-                 "First bullet point explanation (keep explanation equal to 16 words)",
-                  "Second bullet point explanation (keep explanation equal to 16 words)",
-                  "Third bullet point explanation (keep explanation equal to 16 words)"
+                 "First bullet point explanation (keep explanation equal to 15 words)",
+                  "Second bullet point explanation (keep explanation equal to 15 words)",
+                  "Third bullet point explanation (keep explanation equal to 15 words)"
                 ]
               },
               "instrumentalVocalPreference": {
                 "score": 0-10,
                 "explanation": [
-                  "First bullet point explanation (keep explanation equal to 16 words)",
-                  "Second bullet point explanation (keep explanation equal to 16 words)",
-                  "Third bullet point explanation (keep explanation equal to 16 words)"
+                  "First bullet point explanation (keep explanation equal to 15 words)",
+                  "Second bullet point explanation (keep explanation equal to 15 words)",
+                  "Third bullet point explanation (keep explanation equal to 15 words)"
                 ]
               },
               "timePeriods": {
                 "score": 0-10,
                 "explanation": [
-                  "First bullet point explanation (keep explanation equal to 16 words)",
-                  "Second bullet point explanation (keep explanation equal to 16 words)",
-                  "Third bullet point explanation (keep explanation equal to 16 words)"
+                  "First bullet point explanation (keep explanation equal to 15 words)",
+                  "Second bullet point explanation (keep explanation equal to 15 words)",
+                  "Third bullet point explanation (keep explanation equal to 15 words)"
                 ]
               },
               "songMeanings": {
                 "score": 0-10,
                 "explanation": [
-               "First bullet point explanation (keep explanation equal to 16 words)",
-                  "Second bullet point explanation (keep explanation equal to 16 words)",
-                  "Third bullet point explanation (keep explanation equal to 16 words)"
+               "First bullet point explanation (keep explanation equal to 15 words)",
+                  "Second bullet point explanation (keep explanation equal to 15 words)",
+                  "Third bullet point explanation (keep explanation equal to 15 words)"
                 ]
               },
               "totalMelodyveScore": {

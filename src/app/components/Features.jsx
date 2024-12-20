@@ -14,11 +14,10 @@ const Features = () => {
 				<div className=''>
 					<div className='p-24 text-center'>
 						<div className='text-center text-5xl font-black mb-6'>
-							Categories meylodVe looks at
+							Categories melodyVe looks at
 						</div>
 						<h2 className='text-xl'>
-							Our AI content detector is built to help you get a clear and
-							accurate assessment.
+						MelodyVe analyzes several key categories to calculate musical compatibility, including top artists, genres, and tracks.
 						</h2>
 					</div>
 
@@ -52,7 +51,7 @@ const Features = () => {
 						<motion.div whileHover={{ scale: 1.1 }}>
 							<div className='bg-secondary rounded-3xl p-12 shadow-xl'>
 								<div className='flex flex-inline justify-between mb-5'>
-									<h1 className='font-bold text-3xl'>Melodies vs Vocal</h1>{' '}
+									<h1 className='font-bold text-3xl'>Melodies vs Vocals</h1>{' '}
 								</div>
 								<p>
 									Looks at whether users prefer music with prominent vocals,
