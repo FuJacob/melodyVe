@@ -1,42 +1,46 @@
-import localFont from "next/font/local";
-import { Poppins } from "next/font/google";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-
-import "./globals.css";
+import localFont from 'next/font/local';
+import { Poppins } from 'next/font/google';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import { SessionProvider } from './components/SessionProvider';
+import './globals.css';
+import { getServerSession } from 'next-auth';
 
 const poppins = Poppins({
-  weight: ["300", "400", "500", "600", "700"], // Specify the weights you want to use
-  subsets: ["latin"],
-  display: "swap", // Ensures text is visible while the font loads
-  variable: "--font-poppins", // Define a CSS variable for Poppins
+	weight: ['300', '400', '500', '600', '700'], // Specify the weights you want to use
+	subsets: ['latin'],
+	display: 'swap', // Ensures text is visible while the font loads
+	variable: '--font-poppins', // Define a CSS variable for Poppins
 });
 
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+	src: './fonts/GeistVF.woff',
+	variable: '--font-geist-sans',
+	weight: '100 900',
 });
 const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+	src: './fonts/GeistMonoVF.woff',
+	variable: '--font-geist-mono',
+	weight: '100 900',
 });
 
 export const metadata = {
-  title: "melodyVe",
-  description: "Created by JF",
+	title: 'melodyVe',
+	description: 'Created by JF',
 };
 
-export default function RootLayout({ children }) {
-  return (
-    <html lang="en">
-      <body className={poppins.className}>
-        <Navbar />
-
-        {children}
-        <Footer />
-      </body>
-    </html>
-  );
+export default async function RootLayout({ children }) {
+	const session = await getServerSession();
+	return (
+		<html lang='en'>
+			<body className={poppins.className}>
+<SessionProvider session={session}>
+					<Navbar />
+	
+					{children}
+					<Footer />
+</SessionProvider>
+			</body>
+		</html>
+	);
 }
