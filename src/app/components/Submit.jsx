@@ -3,7 +3,10 @@ import { BarLoader } from 'react-spinners';
 import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaSpotify } from 'react-icons/fa';
+
+import { useSession } from 'next-auth/react';
 const Submit = () => {
+	const { data: session } = useSession(); // Access the session (user info)
 	const [inputValues, setInputValues] = useState(['', '']);
 	const [users, setUsers] = useState([]);
 	const [loading, setLoading] = useState(false);
@@ -67,7 +70,6 @@ const Submit = () => {
 	const sendToGroqAI = async (userTracks) => {
 		try {
 			const tracks = [userTracks[1] || [], userTracks[2] || []];
-
 			const response = await fetch('http://localhost:4000/sendToGroq', {
 				method: 'POST',
 				headers: {
@@ -82,8 +84,33 @@ const Submit = () => {
 
 			const result = await response.json();
 			setGroqResponse(result);
+
+			// Add save-report functionality here
+
+			const reportData = {
+				userID: session.user.email, // Add userId from session at the top
+				...result, // Spread the existing result data
+			};
+
+			if (!session) {
+				throw new Error('User not authenticated');
+			}
+			const saveResponse = await fetch('http://localhost:4000/save-report', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(reportData),
+			});
+
+			if (!saveResponse.ok) {
+				throw new Error('Failed to save report');
+			}
+
+			const saveData = await saveResponse.json();
+			console.log('Report saved:', saveData);
 		} catch (error) {
-			console.error('Error sending tracks to Groq:', error.message);
+			console.error('Error:', error.message);
 		}
 	};
 
@@ -221,6 +248,7 @@ const Submit = () => {
 					</div>
 				</div>
 			</div>
+
 			{groqResponse && users && (
 				<div
 					className='flex justify-center items-center min-h-screen'

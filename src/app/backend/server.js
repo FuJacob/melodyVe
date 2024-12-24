@@ -5,11 +5,60 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 const cors = require('cors');
 const mongoose = require('mongoose');
+
 app.use(cors());
-app.use(express.json()); // This middleware allows your Express server to accept JSON requests
+app.use(express.json());
 
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+// MongoDB Schema
+
+const reportSchema = new mongoose.Schema(
+	{
+		userID: { type: String, required: true }, // Store the user's ID (from session)
+
+		genrePreferences: {
+			score: { type: Number, required: true },
+			explanation: { type: [String], required: true },
+		},
+		mood: {
+			score: { type: Number, required: true },
+			explanation: { type: [String], required: true },
+		},
+		artistOverlap: {
+			score: { type: Number, required: true },
+			explanation: { type: [String], required: true },
+		},
+		instrumentalVocalPreference: {
+			score: { type: Number, required: true },
+			explanation: { type: [String], required: true },
+		},
+		timePeriods: {
+			score: { type: Number, required: true },
+			explanation: { type: [String], required: true },
+		},
+		songMeanings: {
+			score: { type: Number, required: true },
+			explanation: { type: [String], required: true },
+		},
+		totalMelodyveScore: {
+			score: { type: Number, required: true },
+			finalRemarks: { type: String, required: true },
+		},
+		// Custom readable timestamp fields
+		createdAt: { type: Date, default: Date.now },
+		updatedAt: { type: Date, default: Date.now },
+	},
+	{ timestamps: true }
+);
+
+// Middleware to automatically update the `updatedAt` field when document is modified
+reportSchema.pre('save', function (next) {
+	this.updatedAt = Date.now();
+	next();
+});
+
+const Report = mongoose.model('Report', reportSchema);
 
 // Store the token and its expiration time
 let spotifyToken = null;
@@ -271,19 +320,33 @@ app.post('/sendToGroq', async (req, res) => {
 	}
 });
 
-// Start the server
-
+// this is for saving the reports
+app.post('/save-report', async (req, res) => {
+	try {
+		const report = new Report(req.body);
+		const result = await report.save();
+		res.status(200).json({
+			success: true,
+			message: 'Report saved!',
+			result,
+		});
+	} catch (error) {
+		console.error('Error saving report:', error);
+		res.status(500).json({
+			success: false,
+			message: 'Failed to save report.',
+		});
+	}
+});
+// Connect to MongoDB and start server
 mongoose
-	.connect(
-		'mongodb+srv://admin:12345@melodyvedb.yp5wa.mongodb.net/melodyvedb?retryWrites=true&w=majority&appName=melodyVeDB'
-	)
+	.connect(process.env.MONGODB_URI)
 	.then(() => {
 		app.listen(PORT, () => {
 			console.log(`Server is running on http://localhost:${PORT}`);
 		});
 		console.log('connected to database YES');
 	})
-
 	.catch(() => {
 		console.log('connection failed NO');
 	});

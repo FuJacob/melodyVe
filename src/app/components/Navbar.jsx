@@ -23,7 +23,7 @@ const Navbar = () => {
 	const { data: session, status } = useSession();
 
 	return (
-		<nav className='navbar fixed gap-2 border bg-base-100'>
+		<nav className='navbar gap-2 border bg-base-100'>
 			<div className='flex-1'>
 				<Link href='/'>
 					<img src='melodyve.svg' className='w-24 ml-5' />
