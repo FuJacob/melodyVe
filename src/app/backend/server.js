@@ -15,6 +15,7 @@ const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 
 const reportSchema = new mongoose.Schema(
 	{
+		users: { type: mongoose.Schema.Types.Mixed },
 		userID: { type: String, required: true }, // Store the user's ID (from session)
 
 		genrePreferences: {
@@ -338,6 +339,26 @@ app.post('/save-report', async (req, res) => {
 		});
 	}
 });
+
+// Get Reports by User ID Route
+// Fetch all reports for a specific userID
+app.get('/get-reports', async (req, res) => {
+	const { userID } = req.query;
+	if (!userID) {
+		return res.status(400).json({ error: 'User ID is required' });
+	}
+
+	try {
+		const reports = await Report.find({ userID: userID });
+
+		// Return empty array instead of 404
+		res.status(200).json(reports);
+	} catch (error) {
+		console.error('Error fetching reports:', error);
+		res.status(500).json({ error: 'Failed to fetch reports' });
+	}
+});
+
 // Connect to MongoDB and start server
 mongoose
 	.connect(process.env.MONGODB_URI)

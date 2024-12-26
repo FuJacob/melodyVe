@@ -20,7 +20,7 @@ function AuthButton() {
 	);
 }
 const Navbar = () => {
-	const { data: session, status } = useSession();
+	const { data: session } = useSession();
 
 	return (
 		<nav className='navbar gap-2 border bg-base-100'>
