@@ -15,7 +15,7 @@ const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 
 const reportSchema = new mongoose.Schema(
 	{
-		users: { type: mongoose.Schema.Types.Mixed },
+        users: { type: [mongoose.Schema.Types.Mixed], required: true },  // Array of flexible objects
 		userID: { type: String, required: true }, // Store the user's ID (from session)
 
 		genrePreferences: {

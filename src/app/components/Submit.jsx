@@ -68,7 +68,7 @@ const Submit = () => {
 		}
 	};
 
-	const sendToGroqAI = async (userTracks) => {
+	const sendToGroqAI = async (userTracks, fetchedUsers) => {
 		try {
 			const tracks = [userTracks[1] || [], userTracks[2] || []];
 			const response = await fetch('http://localhost:4000/sendToGroq', {
@@ -89,7 +89,7 @@ const Submit = () => {
 			// Add save-report functionality here
 
 			const reportData = {
-				users: users,
+				users: fetchedUsers,
 				userID: session.user.email, // Add userId from session at the top
 				...result, // Spread the existing result data
 			};
@@ -149,7 +149,7 @@ const Submit = () => {
 				})
 			);
 			if (userTracks[1] && userTracks[2]) {
-				await sendToGroqAI(userTracks);
+				await sendToGroqAI(userTracks, fetchedUsers);
 			} else {
 				console.error('Error: Missing tracks for one or both users');
 			}

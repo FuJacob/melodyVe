@@ -6,8 +6,7 @@ import ReportPop from '../components/ReportPop';
 export default function ProfilePage() {
 	const { data: session } = useSession();
 	const [reports, setReports] = useState([]);
-	const [isModalOpen, setIsModalOpen] = useState(null); // State to track the open modal's ID
-
+	const [selectedReport, setSelectedReport] = useState(null);
 	// Fetch reports
 	const getReports = async () => {
 		if (!session) {
@@ -60,32 +59,41 @@ export default function ProfilePage() {
 					Past Reports
 				</div>
 				<div className='p-12 h-full rounded-3xl w-full shadow-xl bg-white border'>
-					<div className='grid grid-cols-4 gap-6 overflow-scroll'>
-						{reports.map((report) => (
-							<div key={report._id}>
-								{/* Open Modal Button */}
-								<button
-									className='btn bg-white rounded-3xl w-48 h-48 border shadow-xl'
-									onClick={() => {
-										setIsModalOpen(report._id);
-									}}>
-									<img src='melodyve.svg' className='w-24' />
-									<h1>{report.createdAt}</h1>
-								</button>
+					<div className='grid grid-cols-4 gap-6 h-full w-full overflow-scroll'>
+						{reports.map((report, index) => (
+							<>
+								<div key={index}>
+									{/* Open Modal Button */}
+									<button
+										className='btn bg-white rounded-3xl w-48 h-48 border shadow-xl'
+										onClick={() => setSelectedReport(report)}>
+										<img src='melodyve.svg' className='w-24' />
+										<h1>{report.createdAt}</h1>
+									</button>
 
-								{/* Modal */}
-								{isModalOpen === report._id && (
-									<div className='fixed top-1/4 left-1/4 bg-white p-8 shadow-lg rounded-lg z-50'>
-										<button
-											className='btn mb-4'
-											onClick={() => setIsModalOpen(null)}>
-											Close
-										</button>
-										<ReportPop groqResponse={report} users={report.users} />
-									</div>
-								)}
-							</div>
+									{/* Modal */}
+								</div>
+							</>
 						))}
+
+						{selectedReport && (
+							<>
+							
+								<div className='fixed top-1/4 w-1/2 h-1/2 left-1/4 z-50 '>
+								<button
+								className='btn mb-4 w-full btn-secondary text-white text-xl shadow-2xl'
+								onClick={() => setSelectedReport(null)}>
+								Close
+							</button>
+									<div className='overflow-y-auto h-full rounded-2xl shadow-2xl py-8 bg-white'>
+										<ReportPop
+											groqResponse={selectedReport}
+											users={selectedReport.users}
+										/>
+									</div>
+								</div>
+							</>
+						)}
 					</div>
 				</div>
 			</div>

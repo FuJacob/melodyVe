@@ -23,14 +23,14 @@ const ReportPop = ({ groqResponse, users }) => {
 
 	return (
 		<>
-			<div className='overflow-auto h-[45rem] w-3/4'>
+			<div className=''>
 					<div
 					className='flex justify-center items-center'
 					style={{
 						backgroundImage: "url('bg3.svg')",
 						backgroundSize: 'cover',
 					}}>
-					<div className='flex-col w-3/4'>
+					<div className='flex-col p-8'>
 						<div className=''>
 							<motion.div
 								initial={{ opacity: 0 }}
@@ -57,7 +57,7 @@ const ReportPop = ({ groqResponse, users }) => {
 												{users[0]?.userData?.display_name}
 												<FaSpotify size={20} className='ml-2' />
 											</a>
-											<div className='dropdown dropdown-bottom'>
+											<div className='dropdown dropdown-hover'>
 												<div
 													tabIndex={0}
 													role='button'
@@ -92,7 +92,7 @@ const ReportPop = ({ groqResponse, users }) => {
 									</motion.div>
 		
 									{/* Score and Remarks */}
-									<div className='flex flex-col border space-y-6 shadow-xl p-5 rounded-sm text-center'>
+									<div className='flex flex-col border space-y-6 shadow-xl p-5 rounded-2xl text-center'>
 										<div className='flex flex-inline justify-center space-x-2'>
 											<img src='melodyve.svg' className='w-12' />
 											<h3 className='text-xl font-semibold'>score</h3>
@@ -120,7 +120,7 @@ const ReportPop = ({ groqResponse, users }) => {
 												{users[1]?.userData?.display_name}
 												<FaSpotify size={20} className='ml-2' />
 											</a>
-											<div className='dropdown dropdown-bottom'>
+											<div className='dropdown dropdown-left dropdown-hover'>
 												<div
 													tabIndex={0}
 													role='button'
@@ -164,13 +164,13 @@ const ReportPop = ({ groqResponse, users }) => {
 									delay: 1,
 									duration: 2,
 								}}>
-								<div className='grid grid-cols-2 gap-2 m-6'>
+								<div className='grid grid-cols-2 gap-4 mt-8'>
 									{sections.map(
 										(section, index) =>
 											section.data && (
 												<motion.div whileHover={{ scale: 1.05 }} key={index}>
-													<div className='bg-base-100 rounded-2xl shadow-sm p-6 border'>
-														<div className='flex gap-2-5 font-semibold'>
+													<div className='bg-base-100 rounded-2xl shadow-sm p-6 border-2'>
+														<div className='flex gap-2 font-semibold'>
 															<div className='bg-secondary text-white rounded-xl w-12 flex items-center justify-center'>
 																{section.data.score}/10
 															</div>
