@@ -10,16 +10,14 @@ const port = process.env.PORT || 4000;
 app.prepare().then(() => {
   const server = express();
   
-  // Import and use your existing backend routes at root level
-  const backendApp = require('./src/app/backend/server');
-  server.use('/', backendApp);
-
-  // Next-Auth routes will be automatically handled by Next.js at /api/auth/*
-
-  // Handle all other routes with Next.js
+  // Handle Next.js routes first
   server.all('*', (req, res) => {
     return handle(req, res);
   });
+
+  // Then handle your Express backend routes
+  const backendApp = require('./src/app/backend/server');
+  server.use('/api', backendApp);
 
   createServer(server).listen(port, (err) => {
     if (err) throw err;

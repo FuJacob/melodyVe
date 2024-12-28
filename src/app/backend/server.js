@@ -109,7 +109,7 @@ const ensureSpotifyToken = async (req, res, next) => {
 };
 
 // Endpoint to manually refresh the Spotify token
-app.get('/getSpotifyToken', async (req, res) => {
+app.get('/api/getSpotifyToken', async (req, res) => {
 	try {
 		await fetchSpotifyToken();
 		res.json({ token: spotifyToken });
@@ -119,7 +119,7 @@ app.get('/getSpotifyToken', async (req, res) => {
 });
 
 // Route to handle the GET request for user data
-app.get('/getUserData', ensureSpotifyToken, async (req, res) => {
+app.get('/api/getUserData', ensureSpotifyToken, async (req, res) => {
 	const { username } = req.query;
 
 	if (!username) {
@@ -146,7 +146,7 @@ app.get('/getUserData', ensureSpotifyToken, async (req, res) => {
 });
 
 // Route to handle the GET request for user playlist data
-app.get('/getUserPlaylists', ensureSpotifyToken, async (req, res) => {
+app.get('/api/getUserPlaylists', ensureSpotifyToken, async (req, res) => {
 	const { username } = req.query;
 
 	if (!username) {
@@ -173,7 +173,7 @@ app.get('/getUserPlaylists', ensureSpotifyToken, async (req, res) => {
 });
 
 // Route to get all playlist items from user playlist
-app.get('/getPlaylistItems', ensureSpotifyToken, async (req, res) => {
+app.get('/api/getPlaylistItems', ensureSpotifyToken, async (req, res) => {
 	const { playlist_id } = req.query;
 
 	if (!playlist_id) {
@@ -212,7 +212,7 @@ const truncateTracks = (tracks, maxLength) => {
 };
 
 // Route to send tracks to Groq API (now using OpenAI)
-app.post('/sendToGroq', async (req, res) => {
+app.post('/api/sendToGroq', async (req, res) => {
 	try {
 		const { userTracks } = req.body; // Tracks array sent from frontend
 
@@ -322,7 +322,7 @@ app.post('/sendToGroq', async (req, res) => {
 });
 
 // this is for saving the reports
-app.post('/save-report', async (req, res) => {
+app.post('/api/save-report', async (req, res) => {
 	try {
 		const report = new Report(req.body);
 		const result = await report.save();
@@ -342,7 +342,7 @@ app.post('/save-report', async (req, res) => {
 
 // Get Reports by User ID Route
 // Fetch all reports for a specific userID
-app.get('/get-reports', async (req, res) => {
+app.get('/api/get-reports', async (req, res) => {
 	const { userID } = req.query;
 	if (!userID) {
 		return res.status(400).json({ error: 'User ID is required' });

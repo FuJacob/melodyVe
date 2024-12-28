@@ -8,6 +8,7 @@ export default function ProfilePage() {
 	const { data: session } = useSession();
 	const [reports, setReports] = useState([]);
 	const [selectedReport, setSelectedReport] = useState(null);
+	const API_URL = process.env.NEXT_PUBLIC_API_URL;
 	// Fetch reports
 	const getReports = async () => {
 		if (!session) {
@@ -17,7 +18,7 @@ export default function ProfilePage() {
 
 		try {
 			const response = await fetch(
-				`http://localhost:4000/get-reports?userID=${session.user.email}`
+				`${API_URL}/api/get-reports?userID=${session.user.email}`
 			);
 
 			if (!response.ok) {
