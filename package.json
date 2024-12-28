@@ -2,17 +2,13 @@
   "name": "melodymatch",
   "version": "0.1.0",
   "private": true,
-    "scripts": {
-      "dev": "node server.js",
-      "build": "next build",
-      "start": "NODE_ENV=production node server.js"
-    },
-      "scripts": {
-        "dev:next": "next dev",
-        "dev:server": "node src/app/backend/server.js",
-        "dev": "concurrently \"npm run dev:next\" \"npm run dev:server\""
-      },   
-  
+  "scripts": {
+    "dev:next": "next dev",
+    "dev:server": "node src/app/backend/server.js",
+    "dev": "concurrently \"npm run dev:next\" \"npm run dev:server\"",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js"
+  },
   "dependencies": {
     "axios": "^1.7.7",
     "cors": "^2.8.5",
@@ -30,6 +26,7 @@
     "react-spinners": "^0.14.1"
   },
   "devDependencies": {
+    "concurrently": "^8.2.2",
     "daisyui": "^4.12.14",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
