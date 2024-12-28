@@ -71,7 +71,7 @@ const Submit = () => {
 	const sendToGroqAI = async (userTracks, fetchedUsers) => {
 		try {
 			const tracks = [userTracks[1] || [], userTracks[2] || []];
-			const response = await fetch('${API_URL}/sendToGroq', {
+			const response = await fetch(`${API_URL}/sendToGroq`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ const Submit = () => {
 			if (!session) {
 				throw new Error('User not authenticated');
 			}
-			const saveResponse = await fetch('${API_URL}/save-report', {
+			const saveResponse = await fetch(`${API_URL}/save-report`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
