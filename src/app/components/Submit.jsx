@@ -71,6 +71,7 @@ const Submit = () => {
 	const sendToGroqAI = async (userTracks, fetchedUsers) => {
 		try {
 			const tracks = [userTracks[1] || [], userTracks[2] || []];
+			console.log('Sending payload:', tracks); // Log the payload
 			const response = await fetch(`${API_URL}/sendToGroq`, {
 				method: 'POST',
 				headers: {
@@ -80,7 +81,9 @@ const Submit = () => {
 			});
 
 			if (!response.ok) {
-				throw new Error('Failed to send tracks to Groq');
+				throw new Error(
+					`Failed to send tracks to Groq: ${response.statusText}`
+				);
 			}
 
 			const result = await response.json();

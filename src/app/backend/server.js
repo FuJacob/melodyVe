@@ -73,7 +73,7 @@ const fetchSpotifyToken = async () => {
 		);
 
 		spotifyToken = response.data.access_token;
-		tokenExpiryTime = Date.now() + response.data.expires_in * 100;
+		tokenExpiryTime = Date.now() + response.data.expires_in * 1000;
 	} catch (error) {
 		console.error(
 			'Error fetching Spotify token:',

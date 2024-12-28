@@ -11,7 +11,11 @@ const port = process.env.PORT || 4000;
 app.prepare().then(() => {
   const server = express();
 
-  // Mount your Express backend routes first
+  // Middleware to parse JSON and URL-encoded bodies
+  server.use(express.json());
+  server.use(express.urlencoded({ extended: true }));
+
+  // Mount your Express backend routes
   const backendApp = require('./src/app/backend/server'); // Ensure this file exports an Express router
   server.use('/api', backendApp);
 
