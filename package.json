@@ -7,7 +7,7 @@
     "dev:server": "node src/app/backend/server.js",
     "dev": "concurrently \"npm run dev:next\" \"npm run dev:server\"",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
+    "start": "NODE_ENV=production node .next/standalone/server.js",
     "render-build": "npm install && next build"
   },
   "dependencies": {
