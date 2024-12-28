@@ -32,10 +32,10 @@ const Submit = () => {
 	const fetchUserData = async (username) => {
 		try {
 			const response = await fetch(
-				`${API_URL}/api/getUserData?username=${username}`
+				`${API_URL}/getUserData?username=${username}`
 			);
 			const playlistsResponse = await fetch(
-				`${API_URL}/api/getUserPlaylists?username=${username}`
+				`${API_URL}/getUserPlaylists?username=${username}`
 			);
 
 			if (!response.ok || !playlistsResponse.ok) {
@@ -54,7 +54,7 @@ const Submit = () => {
 	const fetchPlaylistTracks = async (playlistId) => {
 		try {
 			const response = await fetch(
-				`${API_URL}/api/getPlaylistItems?playlist_id=${playlistId}`
+				`${API_URL}/getPlaylistItems?playlist_id=${playlistId}`
 			);
 			if (!response.ok) throw new Error('Failed to fetch playlist tracks');
 
@@ -71,7 +71,7 @@ const Submit = () => {
 	const sendToGroqAI = async (userTracks, fetchedUsers) => {
 		try {
 			const tracks = [userTracks[1] || [], userTracks[2] || []];
-			const response = await fetch('${API_URL}/api/sendToGroq', {
+			const response = await fetch('${API_URL}/sendToGroq', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ const Submit = () => {
 			if (!session) {
 				throw new Error('User not authenticated');
 			}
-			const saveResponse = await fetch('${API_URL}/api/save-report', {
+			const saveResponse = await fetch('${API_URL}/save-report', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

@@ -18,7 +18,7 @@ export default function ProfilePage() {
 
 		try {
 			const response = await fetch(
-				`${API_URL}/api/get-reports?userID=${session.user.email}`
+				`${API_URL}/get-reports?userID=${session.user.email}`
 			);
 
 			if (!response.ok) {

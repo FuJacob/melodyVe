@@ -1,9 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     eslint: {
-      ignoreDuringBuilds: true,
+        ignoreDuringBuilds: true,
+      },
+    output: 'standalone',
+    distDir: '.next',
+    // Add this if you're using API routes
+    async rewrites() {
+      return [
+        {
+          source: '/api/:path*',
+          destination: '/api/:path*',
+        },
+      ];
     },
-  };
+  }
   
-  export default nextConfig;
-  
+  module.exports = nextConfig
