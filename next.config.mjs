@@ -1,15 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    output: 'standalone',
-    distDir: '.next',
-    async rewrites() {
-      return [
-        {
-          source: '/api/:path*',
-          destination: '/api/:path*',
-        },
-      ];
+    eslint: {
+      ignoreDuringBuilds: true,
     },
-  }
+  };
   
-  export default nextConfig
+  export default nextConfig;

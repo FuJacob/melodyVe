@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const next = require('next');
 const { createServer } = require('http');
@@ -9,18 +10,19 @@ const port = process.env.PORT || 4000;
 
 app.prepare().then(() => {
   const server = express();
-  
-  // Handle Next.js routes first
+
+  // Mount your Express backend routes first
+  const backendApp = require('./src/app/backend/server'); // Ensure this file exports an Express router
+  server.use('/api', backendApp);
+
+  // Handle all other requests with Next.js
   server.all('*', (req, res) => {
     return handle(req, res);
   });
 
-  // Then handle your Express backend routes
-  const backendApp = require('./src/app/backend/server');
-  server.use('/api', backendApp);
-
+  // Start the combined server
   createServer(server).listen(port, (err) => {
     if (err) throw err;
-    console.log(`> Ready on port ${port}`);
+    console.log(`> Ready on http://localhost:${port}`);
   });
 });
