@@ -2,12 +2,17 @@
   "name": "melodymatch",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
+    "scripts": {
+      "dev": "node server.js",
+      "build": "next build",
+      "start": "NODE_ENV=production node server.js"
+    },
+      "scripts": {
+        "dev:next": "next dev",
+        "dev:server": "node src/app/backend/server.js",
+        "dev": "concurrently \"npm run dev:next\" \"npm run dev:server\""
+      },   
+  
   "dependencies": {
     "axios": "^1.7.7",
     "cors": "^2.8.5",
