@@ -10,6 +10,7 @@ export const authOptions = {
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET,  // Spotify Client Secret from your environment variables
     }),
   ],
+ 
 };
 
 export const handler = NextAuth(authOptions);
