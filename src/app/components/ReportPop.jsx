@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaSpotify } from 'react-icons/fa';
-import { useState } from 'react'
 
 const ReportPop = ({ groqResponse, users }) => {
 	const sections = [
@@ -19,8 +18,6 @@ const ReportPop = ({ groqResponse, users }) => {
 	if (!groqResponse || !users) {
 		return <div>Loading...</div>; // Handle the case where data isn't available yet.
 	}
-	const [popClose, setPopClose ] = useState(false);
-
 	return (
 		<>
 			<div className=''>

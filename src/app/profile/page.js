@@ -2,6 +2,7 @@
 import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import ReportPop from '../components/ReportPop';
+import Link from 'next/link';
 
 export default function ProfilePage() {
 	const { data: session } = useSession();
@@ -101,9 +102,9 @@ export default function ProfilePage() {
 	) : (
 		<div className='h-screen flex flex-col gap-12 justify-center items-center text-5xl'>
 			<h1>You are not logged in.</h1>
-			<a href='/' className='btn'>
+			<Link href='/' className='btn'>
 				Return to home
-			</a>
+			</Link>
 		</div>
 	);
 }
