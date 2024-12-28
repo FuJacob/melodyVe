@@ -100,7 +100,7 @@ const Features = () => {
 							</div>
 						</motion.div>
 						<div className='bg-white p-6 mb-12 rounded-3xl shadow-xl text-xl font-semibold text-black col-span-3 grow w-[84rem] flex items-center justify-between'>
-    <img src='melodyVe.svg' className='w-24'></img>
+    <img src='melodyve.svg' className='w-24'></img>
 	<p>
         try melodyVe today and find out of you are a musically match for
         your significant other
