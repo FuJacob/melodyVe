@@ -16,7 +16,7 @@ const Submit = () => {
 	const [groqResponse, setGroqResponse] = useState(null);
 	const [playlists, setPlaylists] = useState({});
 	const goToReport = useRef(null);
-
+	const API_URL = process.env.NEXT_PUBLIC_API_URL;
 	useEffect(() => {
 		if (groqResponse && goToReport.current) {
 			goToReport.current.scrollIntoView({ behaviour: 'smooth' });
@@ -32,10 +32,10 @@ const Submit = () => {
 	const fetchUserData = async (username) => {
 		try {
 			const response = await fetch(
-				`http://localhost:4000/getUserData?username=${username}`
+				`${API_URL}/getUserData?username=${username}`
 			);
 			const playlistsResponse = await fetch(
-				`http://localhost:4000/getUserPlaylists?username=${username}`
+				`${API_URL}/getUserPlaylists?username=${username}`
 			);
 
 			if (!response.ok || !playlistsResponse.ok) {
@@ -54,7 +54,7 @@ const Submit = () => {
 	const fetchPlaylistTracks = async (playlistId) => {
 		try {
 			const response = await fetch(
-				`http://localhost:4000/getPlaylistItems?playlist_id=${playlistId}`
+				`${API_URL}/getPlaylistItems?playlist_id=${playlistId}`
 			);
 			if (!response.ok) throw new Error('Failed to fetch playlist tracks');
 
@@ -71,7 +71,7 @@ const Submit = () => {
 	const sendToGroqAI = async (userTracks, fetchedUsers) => {
 		try {
 			const tracks = [userTracks[1] || [], userTracks[2] || []];
-			const response = await fetch('http://localhost:4000/sendToGroq', {
+			const response = await fetch('${API_URL}/sendToGroq', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ const Submit = () => {
 			if (!session) {
 				throw new Error('User not authenticated');
 			}
-			const saveResponse = await fetch('http://localhost:4000/save-report', {
+			const saveResponse = await fetch('${API_URL}/save-report', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
