@@ -11,13 +11,10 @@ const port = process.env.PORT || 4000;
 app.prepare().then(() => {
   const server = express();
 
-  // Middleware to parse JSON and URL-encoded bodies
-  server.use(express.json());
-  server.use(express.urlencoded({ extended: true }));
 
   // Mount your Express backend routes
   const backendApp = require('./src/app/backend/server'); // Ensure this file exports an Express router
-  server.use('/api', backendApp);
+  server.use('/eapi', express.json(), express.urlencoded({ extended: true }), backendApp);
 
   // Handle all other requests with Next.js
   server.all('*', (req, res) => {
