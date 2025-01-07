@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import { SessionProvider } from './components/SessionProvider';
 import './globals.css';
 import { getServerSession } from 'next-auth';
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 const poppins = Poppins({
 	weight: ['300', '400', '500', '600', '700'], // Specify the weights you want to use
@@ -39,7 +40,8 @@ export default async function RootLayout({ children }) {
 	
 					{children}
 					<Footer />
-</SessionProvider>
+				</SessionProvider>
+				<GoogleAnalytics gaId={`process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID`} />
 			</body>
 		</html>
 	);

@@ -9,6 +9,7 @@ const Guide = () => {
 				style={{
 					backgroundImage: 'url(bg2.svg)',
 					backgroundSize: 'cover',
+					backgroundPosition: '80% 90%'
 				}}>
 				<div className='flex flex-col items-center gap-5'>
 					<div className='flex flex-inline text-6xl font-black mt-40'>
