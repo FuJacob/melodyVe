@@ -21,7 +21,7 @@
               () =>
                 signIn("spotify", {
                   callbackUrl:
-                    "https://melodyve.onrender.com/",
+                    "https://melodyve.onrender.com/api/auth/callback/spotify",
                 }) // Add the proper callback URL
             }
             className="btn btn-lg btn-secondary text-2xl font-semibold text-white shadow-2xl rounded-3xl"
