@@ -10,19 +10,18 @@ const SignInPage = () => {
         backgroundSize: "cover",
       }}
     >
-      <img src="../../../melodyve.svg" className="w-96" />
+      <img src="../../../melodyve.svg" alt="Melodyve Logo" className="w-96" />
       <div className="flex flex-col items-center p-12 rounded-3xl gap-6 shadow-2xl border-2 bg-white">
         <h1 className="text-2xl w-3/4 text-center">
           Click the button below and you will be redirected shortly to login
           with your <strong>Spotify account</strong>.
         </h1>
         <button
-          onClick={
-            () =>
-              signIn("spotify", {
-                callbackUrl:
-                  "https://melodyve.onrender.com/",
-              }) // Add the proper callback URL
+          onClick={() =>
+            signIn("spotify", {
+              callbackUrl: `${process.env.NEXT_PUBLIC_URL}/api/auth/callback/spotify`,
+              redirect: true,
+            })
           }
           className="btn btn-lg btn-secondary text-2xl font-semibold text-white shadow-2xl rounded-3xl"
         >
