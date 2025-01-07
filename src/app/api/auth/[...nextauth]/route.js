@@ -12,7 +12,7 @@ export const authOptions = {
     }),
   ],
   pages: {
-    signIn: "../../../signin",
+    signIn: "/signin",
   },
 };
 
@@ -24,4 +24,4 @@ export { handler as GET, handler as POST };
 
   // pages: {
   //   signIn: "../../auth/signin",
-  // }
+  // }src/app/signin
