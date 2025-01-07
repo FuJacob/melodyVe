@@ -8,6 +8,7 @@ export const authOptions = {
     SpotifyProvider({
       clientId: process.env.SPOTIFY_CLIENT_ID, // Spotify Client ID from your environment variables
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET, // Spotify Client Secret from your environment variables
+  
     }),
   ],
   pages: {

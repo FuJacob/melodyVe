@@ -17,7 +17,13 @@ const SignInPage = () => {
           with your <strong>Spotify account</strong>.
         </h1>
         <button
-          onClick={() => signIn("spotify")}
+          onClick={
+            () =>
+              signIn("spotify", {
+                callbackUrl:
+                  "https://melodyve.onrender.com/api/auth/callback/spotify",
+              }) // Add the proper callback URL
+          }
           className="btn btn-lg btn-secondary text-2xl font-semibold text-white shadow-2xl rounded-3xl"
         >
           Sign in
