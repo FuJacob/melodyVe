@@ -21,7 +21,7 @@ const SignInPage = () => {
             () =>
               signIn("spotify", {
                 callbackUrl:
-                  "https://melodyve.onrender.com/api/auth/callback/spotify",
+                  "https://melodyve.onrender.com/",
               }) // Add the proper callback URL
           }
           className="btn btn-lg btn-secondary text-2xl font-semibold text-white shadow-2xl rounded-3xl"
